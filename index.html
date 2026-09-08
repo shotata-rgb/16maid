@@ -313,56 +313,7 @@
           </div>
         </div>
 
-        <!-- Twitter & Image Action Center -->
-        <div class="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xs">
-          <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-6 pb-5 border-b border-slate-100">
-            <div>
-              <span class="text-xs font-extrabold text-[#1DA1F2] tracking-wider uppercase">SHARE & EXPORT</span>
-              <h3 class="text-lg font-bold text-slate-800">Twitterシェア・結果画像保存</h3>
-              <p class="text-xs text-slate-500 mt-0.5">Twitterに投稿しやすい16:9横長カード形式でワンクリック保存・コピーできます</p>
-            </div>
-            <span class="text-[11px] font-bold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full whitespace-nowrap">16:9 横長形式</span>
-          </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <!-- Twitterにシェア -->
-            <button onclick="shareResultTwitter()" class="px-5 py-3.5 rounded-2xl bg-[#1DA1F2] hover:bg-[#1a8cd8] active:scale-95 text-white font-bold transition shadow-md flex items-center justify-center gap-2">
-              <svg class="w-5 h-5 fill-current text-white" viewBox="0 0 24 24">
-                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.936 9.936 0 0024 4.59z"/>
-              </svg>
-              <span>Twitterにシェア</span>
-            </button>
-
-            <!-- 結果画像を保存 -->
-            <button onclick="downloadResultImage()" class="px-5 py-3.5 rounded-2xl bg-slate-900 hover:bg-black active:scale-95 text-white font-bold transition shadow-md flex items-center justify-center gap-2">
-              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
-              </svg>
-              <span>結果画像を保存</span>
-            </button>
-
-            <!-- 画像をクリップボードにコピー -->
-            <button onclick="copyResultImageToClipboard()" class="px-5 py-3.5 rounded-2xl bg-white border border-purple-300 hover:bg-purple-50/60 active:scale-95 text-purple-700 font-bold transition shadow-xs flex items-center justify-center gap-2">
-              <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75"/>
-              </svg>
-              <span>画像をクリップボードにコピー</span>
-            </button>
-          </div>
-
-          <div class="flex flex-wrap items-center justify-center gap-3 pt-5 mt-5 border-t border-slate-100">
-            <button onclick="copyResultToClipboard()" class="px-4 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 border border-slate-200">
-              <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"/></svg>
-              <span>結果テキストをコピー</span>
-            </button>
-            <button onclick="showView('encyclopedia')" class="px-4 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition flex items-center gap-1.5">
-              <span>16タイプ図鑑を見る</span>
-            </button>
-            <button onclick="startQuiz()" class="px-4 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold transition flex items-center gap-1.5">
-              <span>もう一度診断する</span>
-            </button>
-          </div>
-        </div>
 
         <!-- 4 MAID Core Cards (User Specific Acronym) -->
         <div class="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-10 shadow-xs">
@@ -445,98 +396,124 @@
         </div>
 
         <!-- Share & Action Buttons (Bottom) -->
-        <div class="flex flex-wrap gap-4 items-center justify-center pt-8 pb-4">
-          <button onclick="shareResultTwitter()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#1DA1F2] hover:bg-[#1a8cd8] active:scale-95 text-white font-bold transition shadow-md flex items-center justify-center gap-2">
-            <svg class="w-5 h-5 fill-current text-white" viewBox="0 0 24 24">
-              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.936 9.936 0 0024 4.59z"/>
-            </svg>
-            <span>Twitterにシェア</span>
-          </button>
-          <button onclick="downloadResultImage()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-900 hover:bg-black active:scale-95 text-white font-bold transition shadow-md flex items-center justify-center gap-2">
-            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
-            </svg>
-            <span>結果画像を保存</span>
-          </button>
-          <button onclick="copyResultImageToClipboard()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-white border border-purple-300 hover:bg-purple-50 active:scale-95 text-purple-700 font-bold transition shadow-xs flex items-center justify-center gap-2">
-            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75"/>
-            </svg>
-            <span>画像をクリップボードにコピー</span>
-          </button>
-          <button onclick="copyResultToClipboard()" class="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-white border border-slate-200 hover:bg-slate-50 active:scale-95 text-slate-700 font-bold transition shadow-xs flex items-center justify-center gap-2">
-            <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"/></svg>
-            <span>結果テキストをコピー</span>
-          </button>
-          <button onclick="showView('encyclopedia')" class="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold transition flex items-center justify-center gap-1.5">
-            <span>16タイプ図鑑を見る</span>
-          </button>
-          <button onclick="startQuiz()" class="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold transition">
-            もう一度診断する
-          </button>
+        <div class="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xs max-w-3xl mx-auto space-y-6">
+          <div class="text-center">
+            <span class="text-xs font-extrabold text-[#1DA1F2] tracking-wider uppercase">SHARE & SAVE</span>
+            <h3 class="text-lg font-bold text-slate-800">診断結果を保存・Twitterで共有</h3>
+            <p class="text-xs text-slate-500 mt-1">16:9横長カード画像（Retina高解像度）でTwitterへの投稿や保存ができます</p>
+          </div>
+
+          <!-- Primary Actions (Twitter, Save, Copy Image) -->
+          <div class="flex flex-wrap items-center justify-center gap-3">
+            <button onclick="shareResultTwitter()" class="flex-1 min-w-[200px] px-6 py-4 rounded-2xl bg-[#1DA1F2] hover:bg-[#1a8cd8] active:scale-95 text-white font-bold transition shadow-md flex items-center justify-center gap-2.5 whitespace-nowrap text-sm">
+              <svg class="w-5 h-5 fill-current text-white flex-shrink-0" viewBox="0 0 24 24">
+                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.936 9.936 0 0024 4.59z"/>
+              </svg>
+              <span>Twitterにシェア</span>
+            </button>
+            <button onclick="downloadResultImage()" class="flex-1 min-w-[180px] px-6 py-4 rounded-2xl bg-slate-900 hover:bg-black active:scale-95 text-white font-bold transition shadow-md flex items-center justify-center gap-2.5 whitespace-nowrap text-sm">
+              <svg class="w-5 h-5 text-white flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+              </svg>
+              <span>結果画像を保存</span>
+            </button>
+            <button onclick="copyResultImageToClipboard()" class="flex-1 min-w-[210px] px-6 py-4 rounded-2xl bg-white border border-purple-300 hover:bg-purple-50/70 active:scale-95 text-purple-700 font-bold transition shadow-xs flex items-center justify-center gap-2.5 whitespace-nowrap text-sm">
+              <svg class="w-5 h-5 text-purple-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75"/>
+              </svg>
+              <span>画像をクリップボードにコピー</span>
+            </button>
+          </div>
+
+          <!-- Secondary Actions (Text copy, Encyclopedia, Retake) -->
+          <div class="flex flex-wrap items-center justify-center gap-3 pt-4 border-t border-slate-100">
+            <button onclick="copyResultToClipboard()" class="px-5 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 border border-slate-200 whitespace-nowrap">
+              <svg class="w-4 h-4 text-slate-500 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"/></svg>
+              <span>結果テキストをコピー</span>
+            </button>
+            <button onclick="showView('encyclopedia')" class="px-5 py-2.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap">
+              <span>16タイプ図鑑を見る</span>
+            </button>
+            <button onclick="startQuiz()" class="px-5 py-2.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap">
+              <span>もう一度診断する</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ==================== OFF-SCREEN CAPTURE CARD (840x472 / 16:9 for Twitter) ==================== -->
-    <div id="twitter-share-card-capture" aria-hidden="true" style="position: fixed; left: -9999px; top: -9999px; width: 840px; height: 472px; overflow: hidden; font-family: 'Inter', 'Noto Sans JP', sans-serif; box-sizing: border-box; background: #ffffff;">
-      <div id="capture-card-inner" style="width: 840px; height: 472px; padding: 24px 32px; display: flex; flex-direction: column; justify-content: space-between; position: relative; box-sizing: border-box; background: #ffffff;">
+    <div id="twitter-share-card-capture" aria-hidden="true" style="position: fixed; left: -9999px; top: 0; width: 840px; height: 472px; overflow: hidden; font-family: 'Inter', 'Noto Sans JP', sans-serif; box-sizing: border-box; background: #ffffff;">
+      <div id="capture-card-inner" style="width: 840px; height: 472px; padding: 26px 34px; display: flex; flex-direction: column; justify-content: space-between; position: relative; box-sizing: border-box; background: #ffffff;">
         
-        <!-- Header -->
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.06); padding-bottom: 10px;">
+        <!-- Top Header Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 10px;">
           <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="background: #0f172a; color: #ffffff; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; padding: 4px 10px; border-radius: 9999px; text-transform: uppercase;">
+            <div style="background: #0f172a; color: #ffffff; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; padding: 4px 12px; border-radius: 9999px; text-transform: uppercase; white-space: nowrap;">
               16MAID PERSONALITY TEST
-            </span>
-            <span id="capture-group-badge" style="font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 9999px; letter-spacing: 0.04em;">
+            </div>
+            <div id="capture-group-badge" style="font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 9999px; letter-spacing: 0.02em; white-space: nowrap;">
               参謀・統括グループ (ANALYST)
-            </span>
+            </div>
           </div>
-          <div style="font-size: 11px; font-weight: 700; color: #64748b; letter-spacing: 0.05em;">
+          <div style="font-size: 11px; font-weight: 700; color: #64748b; letter-spacing: 0.05em; white-space: nowrap;">
             Created by shotata
           </div>
         </div>
 
-        <!-- Body (Avatar on Left, Details on Right) -->
+        <!-- Middle Body Area (2 Columns) -->
         <div style="display: flex; align-items: center; gap: 28px; flex: 1; margin-top: 10px; margin-bottom: 10px;">
-          <!-- Left: Avatar -->
-          <div style="width: 220px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center;">
-            <div id="capture-avatar" style="width: 190px; height: 190px; background: #ffffff; border: 1px solid rgba(0,0,0,0.08); border-radius: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: center; padding: 12px; box-sizing: border-box;">
-              <!-- SVG Avatar inserted here -->
+          
+          <!-- Left: Avatar Box -->
+          <div style="width: 210px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center;">
+            <div id="capture-avatar" style="width: 184px; height: 184px; background: #ffffff; border: 1px solid rgba(0,0,0,0.08); border-radius: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; padding: 12px; box-sizing: border-box;">
+              <!-- SVG Avatar inserted dynamically -->
             </div>
-            <div style="margin-top: 8px; font-size: 10px; font-weight: 800; color: #94a3b8; letter-spacing: 0.12em; text-transform: uppercase;">
-              MAID PERSONALITY CODE
+            <div style="margin-top: 8px; font-size: 10px; font-weight: 800; color: #94a3b8; letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap;">
+              AUTHENTIC PERSONALITY
             </div>
           </div>
 
-          <!-- Right: Details -->
+          <!-- Right: Details Box -->
           <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center;">
-            <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 2px;">
-              <span style="font-size: 44px; font-weight: 900; line-height: 1; color: #0f172a; letter-spacing: -0.02em;">
-                MAID
-              </span>
-              <span id="capture-title" style="font-size: 20px; font-weight: 800; color: #1e293b;">
-                冷徹なる参謀メイド (MAID-STRATEGIST)
-              </span>
+            
+            <!-- Type Identification -->
+            <div style="margin-bottom: 8px;">
+              <div style="font-size: 10px; font-weight: 800; color: #64748b; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 3px;">
+                YOUR PERSONALITY CODE
+              </div>
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="background: #0f172a; color: #ffffff; font-size: 26px; font-weight: 900; line-height: 1; padding: 6px 14px; border-radius: 10px; letter-spacing: 0.04em; flex-shrink: 0;">
+                  MAID
+                </div>
+                <div id="capture-title" style="font-size: 19px; font-weight: 800; color: #1e293b; line-height: 1.25; white-space: nowrap;">
+                  冷徹なる参謀メイド (MAID-STRATEGIST)
+                </div>
+              </div>
             </div>
 
-            <p id="capture-catchphrase" style="font-size: 12px; font-weight: 600; color: #475569; font-style: italic; margin-bottom: 12px; line-height: 1.4; border-left: 3px solid #8b5cf6; padding-left: 10px;">
-              「感情は時に判断を狂わせます。旦那様、私に従っていただければ勝利は確実です」
-            </p>
+            <!-- Catchphrase (Separated Quote Bar) -->
+            <div style="display: flex; align-items: stretch; gap: 10px; margin-bottom: 12px; background: rgba(255,255,255,0.7); border: 1px solid rgba(0,0,0,0.04); border-radius: 10px; padding: 6px 12px; box-sizing: border-box;">
+              <div id="capture-quote-bar" style="width: 3.5px; background: #8b5cf6; border-radius: 2px; flex-shrink: 0;"></div>
+              <div id="capture-catchphrase" style="font-size: 11.5px; font-weight: 600; color: #475569; font-style: italic; line-height: 1.45;">
+                「感情は時に判断を狂わせます。旦那様、私に従っていただければ勝利は確実です」
+              </div>
+            </div>
 
             <!-- 4 MAID Word Cards (2x2 Grid) -->
             <div id="capture-maid-words" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
               <!-- Populated via JavaScript -->
             </div>
           </div>
+
         </div>
 
-        <!-- Footer -->
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 8px;">
-          <div style="font-size: 11px; font-weight: 800; color: #64748b; letter-spacing: 0.05em;">
+        <!-- Bottom Footer Bar -->
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 8px;">
+          <div style="font-size: 11px; font-weight: 800; color: #64748b; letter-spacing: 0.05em; white-space: nowrap;">
             #16MAID診断 #MAID性格診断
           </div>
-          <div style="font-size: 11px; font-weight: 700; color: #7c3aed; letter-spacing: 0.02em;">
+          <div style="font-size: 11px; font-weight: 700; color: #7c3aed; letter-spacing: 0.02em; white-space: nowrap;">
             https://shotata-rgb.github.io/16maid/
           </div>
         </div>
@@ -1947,49 +1924,53 @@
         title.textContent = `${maid.name} (${maid.subCode})`;
       }
 
+      const qBar = document.getElementById('capture-quote-bar');
+      if (qBar) {
+        qBar.style.background = theme.accent;
+      }
+
       const cp = document.getElementById('capture-catchphrase');
       if (cp) {
         cp.textContent = `「${maid.catchphrase}」`;
-        cp.style.borderLeft = `3px solid ${theme.accent}`;
       }
 
       const wordsGrid = document.getElementById('capture-maid-words');
       if (wordsGrid) {
         wordsGrid.innerHTML = `
           <!-- M -->
-          <div style="background: rgba(255,255,255,0.9); border: 1px solid #e2e8f0; border-radius: 12px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <span style="font-size: 11px; font-weight: 900; background: #f3e8ff; color: #7e22ce; padding: 2px 6px; border-radius: 6px;">M</span>
-              <span style="font-size: 12px; font-weight: 800; color: #1e293b;">${mw.m.word}</span>
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
+            <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
+              <div style="width: 22px; height: 22px; border-radius: 6px; background: #f3e8ff; color: #7e22ce; font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 1;">M</div>
+              <span style="font-size: 12px; font-weight: 800; color: #1e293b; white-space: nowrap;">${mw.m.word}</span>
             </div>
-            <span style="font-size: 11px; font-weight: 700; color: #64748b;">${mw.m.ja} (${s.m}%)</span>
+            <span style="font-size: 11px; font-weight: 700; color: #64748b; white-space: nowrap; margin-left: 6px;">${mw.m.ja} (${s.m}%)</span>
           </div>
 
           <!-- A -->
-          <div style="background: rgba(255,255,255,0.9); border: 1px solid #e2e8f0; border-radius: 12px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <span style="font-size: 11px; font-weight: 900; background: #dcfce7; color: #15803d; padding: 2px 6px; border-radius: 6px;">A</span>
-              <span style="font-size: 12px; font-weight: 800; color: #1e293b;">${mw.a.word}</span>
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
+            <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
+              <div style="width: 22px; height: 22px; border-radius: 6px; background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 1;">A</div>
+              <span style="font-size: 12px; font-weight: 800; color: #1e293b; white-space: nowrap;">${mw.a.word}</span>
             </div>
-            <span style="font-size: 11px; font-weight: 700; color: #64748b;">${mw.a.ja} (${s.a}%)</span>
+            <span style="font-size: 11px; font-weight: 700; color: #64748b; white-space: nowrap; margin-left: 6px;">${mw.a.ja} (${s.a}%)</span>
           </div>
 
           <!-- I -->
-          <div style="background: rgba(255,255,255,0.9); border: 1px solid #e2e8f0; border-radius: 12px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <span style="font-size: 11px; font-weight: 900; background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 6px;">I</span>
-              <span style="font-size: 12px; font-weight: 800; color: #1e293b;">${mw.i.word}</span>
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
+            <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
+              <div style="width: 22px; height: 22px; border-radius: 6px; background: #e0f2fe; color: #0369a1; font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 1;">I</div>
+              <span style="font-size: 12px; font-weight: 800; color: #1e293b; white-space: nowrap;">${mw.i.word}</span>
             </div>
-            <span style="font-size: 11px; font-weight: 700; color: #64748b;">${mw.i.ja} (${s.i}%)</span>
+            <span style="font-size: 11px; font-weight: 700; color: #64748b; white-space: nowrap; margin-left: 6px;">${mw.i.ja} (${s.i}%)</span>
           </div>
 
           <!-- D -->
-          <div style="background: rgba(255,255,255,0.9); border: 1px solid #e2e8f0; border-radius: 12px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between;">
-            <div style="display: flex; align-items: center; gap: 6px;">
-              <span style="font-size: 11px; font-weight: 900; background: #fef3c7; color: #b45309; padding: 2px 6px; border-radius: 6px;">D</span>
-              <span style="font-size: 12px; font-weight: 800; color: #1e293b;">${mw.d.word}</span>
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
+            <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
+              <div style="width: 22px; height: 22px; border-radius: 6px; background: #fef3c7; color: #b45309; font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 1;">D</div>
+              <span style="font-size: 12px; font-weight: 800; color: #1e293b; white-space: nowrap;">${mw.d.word}</span>
             </div>
-            <span style="font-size: 11px; font-weight: 700; color: #64748b;">${mw.d.ja} (${s.d}%)</span>
+            <span style="font-size: 11px; font-weight: 700; color: #64748b; white-space: nowrap; margin-left: 6px;">${mw.d.ja} (${s.d}%)</span>
           </div>
         `;
       }
@@ -2004,16 +1985,31 @@
         throw new Error('html2canvas is not loaded');
       }
 
+      // フォントロード待機（文字の重なり・ズレを完全に防ぐ）
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
+
       // Render at 2x scale for crisp Retina display (1680x944)
       const canvas = await html2canvas(target, {
         scale: 2,
         useCORS: true,
-        backgroundColor: null,
+        backgroundColor: '#ffffff',
         logging: false,
         width: 840,
         height: 472,
         windowWidth: 840,
-        windowHeight: 472
+        windowHeight: 472,
+        onclone: (clonedDoc) => {
+          const el = clonedDoc.getElementById('twitter-share-card-capture');
+          if (el) {
+            el.style.position = 'static';
+            el.style.left = '0';
+            el.style.top = '0';
+            el.style.display = 'block';
+            el.style.visibility = 'visible';
+          }
+        }
       });
 
       return new Promise((resolve) => {
@@ -2076,21 +2072,72 @@
       }
     }
 
-    function shareResultTwitter() {
-      if (!calculatedResult) return;
+    async function shareResultTwitter() {
+      if (!calculatedResult || isProcessingExport) return;
+      isProcessingExport = true;
+      showToast('Twitter共有を準備中...');
+
       const m = calculatedResult.item;
       const mw = m.maidWords;
       const siteUrl = 'https://shotata-rgb.github.io/16maid/';
-      const text = `【16MAID性格診断】私の診断結果は『MAID (${m.name})』でした！\n\n` +
-                   `M: ${mw.m.word} (${mw.m.ja})\n` +
-                   `A: ${mw.a.word} (${mw.a.ja})\n` +
-                   `I: ${mw.i.word} (${mw.i.ja})\n` +
-                   `D: ${mw.d.word} (${mw.d.ja})\n\n` +
-                   `「${m.catchphrase}」\n` +
-                   `#16MAID診断 #MAID性格診断`;
-      const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(siteUrl)}`;
-      window.open(tweetUrl, '_blank');
-      showToast('Twitterの投稿画面を開きました。「画像をクリップボードにコピー」から結果画像を添付できます');
+      const tweetText = `【16MAID性格診断】私の診断結果は『MAID (${m.name})』でした！\n\n` +
+                        `M: ${mw.m.word} (${mw.m.ja})\n` +
+                        `A: ${mw.a.word} (${mw.a.ja})\n` +
+                        `I: ${mw.i.word} (${mw.i.ja})\n` +
+                        `D: ${mw.d.word} (${mw.d.ja})\n\n` +
+                        `「${m.catchphrase}」\n` +
+                        `#16MAID診断 #MAID性格診断`;
+
+      try {
+        const blob = await getResultImageBlob();
+        if (!blob) throw new Error('画像の生成に失敗しました');
+
+        const imageFile = new File([blob], `16MAID_${m.id}.png`, { type: 'image/png' });
+
+        // 1. Web Share API: スマホ（iOS/Android）等で画像ファイル付き直接共有
+        if (navigator.canShare && navigator.canShare({ files: [imageFile] })) {
+          await navigator.share({
+            files: [imageFile],
+            title: '16MAID性格診断',
+            text: tweetText,
+            url: siteUrl
+          });
+          showToast('Twitter共有を開きました');
+          return;
+        }
+
+        // 2. PCブラウザ等: 画像をクリップボードにコピーした上でTwitter投稿画面を開く
+        if (navigator.clipboard && navigator.clipboard.write && window.ClipboardItem) {
+          const item = new ClipboardItem({ 'image/png': blob });
+          await navigator.clipboard.write([item]);
+
+          const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(siteUrl)}`;
+          window.open(tweetUrl, '_blank');
+          showToast('画像をコピーしました！Twitter画面で Ctrl+V を押すと画像が貼り付きます');
+        } else {
+          // クリップボード非対応環境
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `16MAID_${m.id}.png`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+
+          const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(siteUrl)}`;
+          window.open(tweetUrl, '_blank');
+          showToast('画像を保存しました！Twitter画面から画像を添付してください');
+        }
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.error(err);
+          const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(siteUrl)}`;
+          window.open(tweetUrl, '_blank');
+        }
+      } finally {
+        isProcessingExport = false;
+      }
     }
 
     function shareResult() {
