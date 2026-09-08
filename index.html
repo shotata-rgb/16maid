@@ -295,8 +295,8 @@
                 </div>
               </div>
 
-              <p id="result-catchphrase" class="text-slate-600 text-sm sm:text-base italic font-medium mb-6 md:border-l-4 md:border-purple-400 md:pl-4">
-                「感情は時に判断を狂わせます。旦那様、私に従っていただければ勝利は確実です」
+              <p id="result-catchphrase" class="text-slate-600 text-sm sm:text-base font-medium tracking-wide mb-6 md:border-l-4 md:border-purple-400 md:pl-4">
+                「感情は時に判断を狂わせます。 旦那様、私に従っていただければ勝利は確実です」
               </p>
 
               <!-- Quick Mini MAID Tags on banner -->
@@ -447,7 +447,8 @@
               <span style="font-size: 14px; font-weight: 900; color: #0f172a; letter-spacing: 0.04em; line-height: 1;">16MAID</span>
               <span style="font-size: 11px; font-weight: 700; color: #64748b; letter-spacing: 0.06em; line-height: 1;">PERSONALITY TEST</span>
             </div>
-            <span id="capture-group-badge" style="font-size: 11px; font-weight: 800; height: 22px; padding: 0 10px; border-radius: 9999px; margin-left: 4px; letter-spacing: 0.02em; display: inline-flex; align-items: center; justify-content: center; line-height: 1; box-sizing: border-box;">
+            <!-- Stable inline-block badge: line-height equals height to prevent html2canvas background offset -->
+            <span id="capture-group-badge" style="display: inline-block; font-size: 11px; font-weight: 800; height: 22px; line-height: 22px; padding: 0 10px; border-radius: 11px; vertical-align: middle; text-align: center; box-sizing: border-box; margin-left: 6px; letter-spacing: 0.02em;">
               参謀・統括グループ (ANALYST)
             </span>
           </div>
@@ -476,15 +477,24 @@
               YOUR PERSONALITY CODE
             </div>
             
-            <!-- MAID and Type Title on a single straight horizontal line -->
-            <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: nowrap;">
-              <span style="font-size: 36px; font-weight: 900; color: #0f172a; line-height: 1; letter-spacing: -0.01em; flex-shrink: 0;">MAID</span>
-              <span id="capture-title" style="font-size: 17px; font-weight: 800; color: #334155; line-height: 1; white-space: nowrap; flex-shrink: 0;">冷徹なる参謀メイド (MAID-STRATEGIST)</span>
+            <!-- MAID and 2-Line Title: Top-aligned so title starts at MAID top and never appears sunk -->
+            <div style="display: flex; align-items: flex-start; gap: 14px; margin-bottom: 8px;">
+              <div style="font-size: 40px; font-weight: 900; color: #0f172a; line-height: 1; letter-spacing: -0.01em; flex-shrink: 0;">
+                MAID
+              </div>
+              <div style="display: flex; flex-direction: column; justify-content: flex-start; min-width: 0;">
+                <div id="capture-title-name" style="font-size: 18px; font-weight: 800; color: #1e293b; line-height: 1.25; letter-spacing: 0.01em;">
+                  冷徹なる参謀メイド
+                </div>
+                <div id="capture-title-sub" style="font-size: 13px; font-weight: 800; color: #64748b; line-height: 1.25; margin-top: 2px; letter-spacing: 0.04em;">
+                  (MAID-STRATEGIST)
+                </div>
+              </div>
             </div>
 
             <!-- Catchphrase: Normal font-style + letter-spacing to prevent character overlap -->
-            <div style="font-size: 12.5px; font-weight: 600; color: #334155; font-style: normal; line-height: 1.6; letter-spacing: 0.04em; margin-bottom: 12px; min-height: 38px; display: flex; align-items: center;">
-              <span id="capture-catchphrase">「感情は時に判断を狂わせます。旦那様、私に従っていただければ勝利は確実です」</span>
+            <div style="font-size: 12.5px; font-weight: 600; color: #334155; font-style: normal; line-height: 1.6; letter-spacing: 0.05em; margin-bottom: 12px; min-height: 38px; display: flex; align-items: center;">
+              <span id="capture-catchphrase">「感情は時に判断を狂わせます。 旦那様、私に従っていただければ勝利は確実です」</span>
             </div>
 
             <!-- 4 MAID Word Cards (2x2 Grid) -->
@@ -1506,9 +1516,10 @@
       const banner = document.getElementById('result-card-banner');
       banner.className = `rounded-3xl border p-6 sm:p-10 relative overflow-hidden shadow-xs transition ${maid.theme.bg} ${maid.theme.border}`;
 
-      // Titles & Catchphrase (ALL CAPS MAID IS ALWAYS FIXED)
       document.getElementById('result-title').textContent = `${maid.name} (${maid.subCode})`;
-      document.getElementById('result-catchphrase').textContent = maid.catchphrase;
+      let formattedCatchphrase = maid.catchphrase.trim();
+      formattedCatchphrase = formattedCatchphrase.replace(/([！!？?])([^\s」』])/g, '$1 $2');
+      document.getElementById('result-catchphrase').textContent = formattedCatchphrase;
 
       // Avatar
       document.getElementById('result-avatar').innerHTML = getUniqueMaidAvatarSvg(maid.id);
@@ -1908,60 +1919,77 @@
         avatar.innerHTML = getUniqueMaidAvatarSvg(maid.id);
       }
 
-      const title = document.getElementById('capture-title');
-      if (title) {
-        title.textContent = `${maid.name} (${maid.subCode})`;
+      const titleName = document.getElementById('capture-title-name');
+      const titleSub = document.getElementById('capture-title-sub');
+      if (titleName) {
+        titleName.textContent = maid.name;
+      }
+      if (titleSub) {
+        titleSub.textContent = `(${maid.subCode})`;
       }
 
       const cp = document.getElementById('capture-catchphrase');
       if (cp) {
-        cp.textContent = `「${maid.catchphrase}」`;
+        let text = maid.catchphrase.trim();
+        if (!text.startsWith('「')) text = '「' + text;
+        if (!text.endsWith('」')) text = text + '」';
+        // ！や？の直後に文字が続く場合は半角スペースを挿入して文字被りを解消
+        text = text.replace(/([！!？?])([^\s」』])/g, '$1 $2');
+        cp.textContent = text;
       }
 
       const wordsGrid = document.getElementById('capture-maid-words');
       if (wordsGrid) {
         wordsGrid.innerHTML = `
           <!-- M -->
-          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; height: 38px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
-            <div style="display: flex; align-items: center; line-height: 1;">
-              <span style="font-size: 14px; font-weight: 900; color: #7e22ce; margin-right: 6px; line-height: 1; display: inline-flex; align-items: center;">M</span>
-              <span style="font-size: 12.5px; font-weight: 800; color: #1e293b; line-height: 1; display: inline-flex; align-items: center;">${mw.m.word}</span>
-            </div>
-            <div style="font-size: 11px; font-weight: 700; color: #64748b; line-height: 1; display: flex; align-items: center;">
-              ${mw.m.ja} (${s.m}%)
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; height: 38px; box-sizing: border-box; width: 100%; display: table;">
+            <div style="display: table-row;">
+              <div style="display: table-cell; vertical-align: middle; padding-left: 14px; text-align: left; white-space: nowrap;">
+                <span style="font-size: 14px; font-weight: 900; color: #7e22ce; margin-right: 6px; line-height: 1;">M</span>
+                <span style="font-size: 12.5px; font-weight: 800; color: #1e293b; line-height: 1;">${mw.m.word}</span>
+              </div>
+              <div style="display: table-cell; vertical-align: middle; padding-right: 14px; text-align: right; font-size: 11px; font-weight: 700; color: #64748b; white-space: nowrap; line-height: 1;">
+                ${mw.m.ja} (${s.m}%)
+              </div>
             </div>
           </div>
 
           <!-- A -->
-          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; height: 38px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
-            <div style="display: flex; align-items: center; line-height: 1;">
-              <span style="font-size: 14px; font-weight: 900; color: #15803d; margin-right: 6px; line-height: 1; display: inline-flex; align-items: center;">A</span>
-              <span style="font-size: 12.5px; font-weight: 800; color: #1e293b; line-height: 1; display: inline-flex; align-items: center;">${mw.a.word}</span>
-            </div>
-            <div style="font-size: 11px; font-weight: 700; color: #64748b; line-height: 1; display: flex; align-items: center;">
-              ${mw.a.ja} (${s.a}%)
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; height: 38px; box-sizing: border-box; width: 100%; display: table;">
+            <div style="display: table-row;">
+              <div style="display: table-cell; vertical-align: middle; padding-left: 14px; text-align: left; white-space: nowrap;">
+                <span style="font-size: 14px; font-weight: 900; color: #15803d; margin-right: 6px; line-height: 1;">A</span>
+                <span style="font-size: 12.5px; font-weight: 800; color: #1e293b; line-height: 1;">${mw.a.word}</span>
+              </div>
+              <div style="display: table-cell; vertical-align: middle; padding-right: 14px; text-align: right; font-size: 11px; font-weight: 700; color: #64748b; white-space: nowrap; line-height: 1;">
+                ${mw.a.ja} (${s.a}%)
+              </div>
             </div>
           </div>
 
           <!-- I -->
-          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; height: 38px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
-            <div style="display: flex; align-items: center; line-height: 1;">
-              <span style="font-size: 14px; font-weight: 900; color: #0369a1; margin-right: 6px; line-height: 1; display: inline-flex; align-items: center;">I</span>
-              <span style="font-size: 12.5px; font-weight: 800; color: #1e293b; line-height: 1; display: inline-flex; align-items: center;">${mw.i.word}</span>
-            </div>
-            <div style="font-size: 11px; font-weight: 700; color: #64748b; line-height: 1; display: flex; align-items: center;">
-              ${mw.i.ja} (${s.i}%)
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; height: 38px; box-sizing: border-box; width: 100%; display: table;">
+            <div style="display: table-row;">
+              <div style="display: table-cell; vertical-align: middle; padding-left: 14px; text-align: left; white-space: nowrap;">
+                <span style="font-size: 14px; font-weight: 900; color: #0369a1; margin-right: 6px; line-height: 1;">I</span>
+                <span style="font-size: 12.5px; font-weight: 800; color: #1e293b; line-height: 1;">${mw.i.word}</span>
+              </div>
+              <div style="display: table-cell; vertical-align: middle; padding-right: 14px; text-align: right; font-size: 11px; font-weight: 700; color: #64748b; white-space: nowrap; line-height: 1;">
+                ${mw.i.ja} (${s.i}%)
+              </div>
             </div>
           </div>
 
           <!-- D -->
-          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; height: 38px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
-            <div style="display: flex; align-items: center; line-height: 1;">
-              <span style="font-size: 14px; font-weight: 900; color: #b45309; margin-right: 6px; line-height: 1; display: inline-flex; align-items: center;">D</span>
-              <span style="font-size: 12.5px; font-weight: 800; color: #1e293b; line-height: 1; display: inline-flex; align-items: center;">${mw.d.word}</span>
-            </div>
-            <div style="font-size: 11px; font-weight: 700; color: #64748b; line-height: 1; display: flex; align-items: center;">
-              ${mw.d.ja} (${s.d}%)
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; height: 38px; box-sizing: border-box; width: 100%; display: table;">
+            <div style="display: table-row;">
+              <div style="display: table-cell; vertical-align: middle; padding-left: 14px; text-align: left; white-space: nowrap;">
+                <span style="font-size: 14px; font-weight: 900; color: #b45309; margin-right: 6px; line-height: 1;">D</span>
+                <span style="font-size: 12.5px; font-weight: 800; color: #1e293b; line-height: 1;">${mw.d.word}</span>
+              </div>
+              <div style="display: table-cell; vertical-align: middle; padding-right: 14px; text-align: right; font-size: 11px; font-weight: 700; color: #64748b; white-space: nowrap; line-height: 1;">
+                ${mw.d.ja} (${s.d}%)
+              </div>
             </div>
           </div>
         `;
@@ -2072,22 +2100,30 @@
       const m = calculatedResult.item;
       const mw = m.maidWords;
       const siteUrl = 'https://shotata-rgb.github.io/16maid/';
+
+      // 感嘆符・疑問符の後に自然な間（スペース）を空け、二重括弧を防止
+      let cleanCatchphrase = m.catchphrase.trim();
+      if (!cleanCatchphrase.startsWith('「')) cleanCatchphrase = '「' + cleanCatchphrase;
+      if (!cleanCatchphrase.endsWith('」')) cleanCatchphrase = cleanCatchphrase + '」';
+      cleanCatchphrase = cleanCatchphrase.replace(/([！!？?])([^\s」』])/g, '$1 $2');
+
       const tweetText = `【16MAID性格診断】私の診断結果は『MAID (${m.name})』でした！\n\n` +
                         `M: ${mw.m.word} (${mw.m.ja})\n` +
                         `A: ${mw.a.word} (${mw.a.ja})\n` +
                         `I: ${mw.i.word} (${mw.i.ja})\n` +
                         `D: ${mw.d.word} (${mw.d.ja})\n\n` +
-                        `「${m.catchphrase}」\n` +
+                        `${cleanCatchphrase}\n\n` +
                         `#16MAID診断 #MAID性格診断`;
 
       try {
         const blob = await getResultImageBlob();
         if (!blob) throw new Error('画像の生成に失敗しました');
 
-        const imageFile = new File([blob], `16MAID_${m.id}.png`, { type: 'image/png' });
+        // モバイル端末判定（スマホやタブレットのみ Web Share API を使用）
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
-        // 1. Web Share API: スマホ（iOS/Android）等で画像ファイル付き直接共有
-        if (navigator.canShare && navigator.canShare({ files: [imageFile] })) {
+        if (isMobile && navigator.canShare && navigator.canShare({ files: [new File([blob], '16MAID.png', { type: 'image/png' })] })) {
+          const imageFile = new File([blob], `16MAID_${m.id}.png`, { type: 'image/png' });
           await navigator.share({
             files: [imageFile],
             title: '16MAID性格診断',
@@ -2098,16 +2134,16 @@
           return;
         }
 
-        // 2. PCブラウザ等: 画像をクリップボードにコピーした上でTwitter投稿画面を開く
+        // PC版: 画像をクリップボードにコピーした上でTwitter投稿画面を開く（ユーザーは投稿画面で Ctrl+V を押すだけ）
         if (navigator.clipboard && navigator.clipboard.write && window.ClipboardItem) {
           const item = new ClipboardItem({ 'image/png': blob });
           await navigator.clipboard.write([item]);
 
           const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(siteUrl)}`;
           window.open(tweetUrl, '_blank');
-          showToast('画像をコピーしました！Twitter画面で Ctrl+V を押すと画像が貼り付きます');
+          showToast('画像をクリップボードにコピーしました！Twitter画面で Ctrl+V を押すと画像が貼り付けられます');
         } else {
-          // クリップボード非対応環境
+          // クリップボード非対応の旧ブラウザ環境
           const url = URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = url;
