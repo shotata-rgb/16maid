@@ -16,6 +16,7 @@
   <meta name="author" content="shotata">
   <title>16MAID診断 - あなたに宿るメイドの魂を解き明かす性格タイプ診断</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;800;900&display=swap" rel="stylesheet">
@@ -270,31 +271,96 @@
     <section id="view-result" class="hidden min-h-screen py-12 px-4 sm:px-6 transition-all duration-300">
       <div class="max-w-4xl mx-auto space-y-10">
         
-        <!-- Header Banner Card -->
-        <div id="result-card-banner" class="rounded-3xl border p-8 sm:p-12 text-center relative overflow-hidden shadow-xs transition">
-          <div class="relative z-10">
-            <span id="result-group-badge" class="inline-block text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-4">
-              参謀・統括グループ (ANALYST)
-            </span>
-            <div class="text-xs font-extrabold text-slate-500 tracking-widest uppercase mb-1">YOUR PERSONALITY CODE</div>
+        <!-- Header Banner Card (Responsive Horizontal 16:9 Showcase) -->
+        <div id="result-card-banner" class="rounded-3xl border p-6 sm:p-10 relative overflow-hidden shadow-xs transition">
+          <div class="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8">
             
-            <!-- ALL CAPS MAID ALWAYS FIXED -->
-            <h2 class="text-6xl sm:text-8xl font-black tracking-tight text-slate-900 mb-2">
-              MAID
-            </h2>
-            <div id="result-title" class="text-2xl sm:text-4xl font-extrabold text-slate-800 mb-3">
-              冷徹なる参謀メイド
+            <!-- Avatar Column -->
+            <div class="flex flex-col items-center flex-shrink-0">
+              <span id="result-group-badge" class="inline-block text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-3">
+                参謀・統括グループ (ANALYST)
+              </span>
+              <div id="result-avatar" class="w-44 h-44 sm:w-52 sm:h-52 rounded-3xl bg-white/95 backdrop-blur-sm border shadow-md flex items-center justify-center p-4">
+                <!-- Dynamically populated SVG -->
+              </div>
+              <span class="text-[10px] font-extrabold text-slate-400 tracking-widest uppercase mt-3">AUTHENTIC PERSONALITY</span>
             </div>
-            <p id="result-catchphrase" class="text-slate-600 max-w-xl mx-auto text-base sm:text-lg italic font-medium">
-              「感情は時に判断を狂わせます。旦那様、私に従っていただければ勝利は確実です」
-            </p>
+
+            <!-- Info Column -->
+            <div class="flex-1 text-center md:text-left flex flex-col justify-center">
+              <div class="text-xs font-extrabold text-slate-500 tracking-widest uppercase mb-1">YOUR PERSONALITY CODE</div>
+              
+              <!-- ALL CAPS MAID ALWAYS FIXED -->
+              <div class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4 mb-2">
+                <h2 class="text-5xl sm:text-7xl font-black tracking-tight text-slate-900 leading-none">
+                  MAID
+                </h2>
+                <div id="result-title" class="text-xl sm:text-2xl font-extrabold text-slate-800">
+                  冷徹なる参謀メイド
+                </div>
+              </div>
+
+              <p id="result-catchphrase" class="text-slate-600 text-sm sm:text-base italic font-medium mb-6 md:border-l-4 md:border-purple-400 md:pl-4">
+                「感情は時に判断を狂わせます。旦那様、私に従っていただければ勝利は確実です」
+              </p>
+
+              <!-- Quick Mini MAID Tags on banner -->
+              <div id="banner-maid-mini-tags" class="grid grid-cols-2 gap-2 max-w-md mx-auto md:mx-0">
+                <!-- Populated via JavaScript -->
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Twitter & Image Action Center -->
+        <div class="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xs">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-6 pb-5 border-b border-slate-100">
+            <div>
+              <span class="text-xs font-extrabold text-[#1DA1F2] tracking-wider uppercase">SHARE & EXPORT</span>
+              <h3 class="text-lg font-bold text-slate-800">Twitterシェア・結果画像保存</h3>
+              <p class="text-xs text-slate-500 mt-0.5">Twitterに投稿しやすい16:9横長カード形式でワンクリック保存・コピーできます</p>
+            </div>
+            <span class="text-[11px] font-bold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full whitespace-nowrap">16:9 横長形式</span>
           </div>
 
-          <!-- Avatar Illustration Container -->
-          <div class="mt-8 flex justify-center">
-            <div id="result-avatar" class="w-44 h-44 sm:w-52 sm:h-52 rounded-3xl bg-white/90 backdrop-blur-sm border shadow-md flex items-center justify-center p-4">
-              <!-- Dynamically populated SVG -->
-            </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <!-- Twitterにシェア -->
+            <button onclick="shareResultTwitter()" class="px-5 py-3.5 rounded-2xl bg-[#1DA1F2] hover:bg-[#1a8cd8] active:scale-95 text-white font-bold transition shadow-md flex items-center justify-center gap-2">
+              <svg class="w-5 h-5 fill-current text-white" viewBox="0 0 24 24">
+                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.936 9.936 0 0024 4.59z"/>
+              </svg>
+              <span>Twitterにシェア</span>
+            </button>
+
+            <!-- 結果画像を保存 -->
+            <button onclick="downloadResultImage()" class="px-5 py-3.5 rounded-2xl bg-slate-900 hover:bg-black active:scale-95 text-white font-bold transition shadow-md flex items-center justify-center gap-2">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+              </svg>
+              <span>結果画像を保存</span>
+            </button>
+
+            <!-- 画像をクリップボードにコピー -->
+            <button onclick="copyResultImageToClipboard()" class="px-5 py-3.5 rounded-2xl bg-white border border-purple-300 hover:bg-purple-50/60 active:scale-95 text-purple-700 font-bold transition shadow-xs flex items-center justify-center gap-2">
+              <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75"/>
+              </svg>
+              <span>画像をクリップボードにコピー</span>
+            </button>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-center gap-3 pt-5 mt-5 border-t border-slate-100">
+            <button onclick="copyResultToClipboard()" class="px-4 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold transition flex items-center gap-1.5 border border-slate-200">
+              <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"/></svg>
+              <span>結果テキストをコピー</span>
+            </button>
+            <button onclick="showView('encyclopedia')" class="px-4 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition flex items-center gap-1.5">
+              <span>16タイプ図鑑を見る</span>
+            </button>
+            <button onclick="startQuiz()" class="px-4 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold transition flex items-center gap-1.5">
+              <span>もう一度診断する</span>
+            </button>
           </div>
         </div>
 
@@ -378,25 +444,105 @@
           </div>
         </div>
 
-        <!-- Share & Action Buttons -->
-        <div class="flex flex-col sm:flex-row gap-4 items-center justify-center pt-6">
-          <button onclick="shareResult()" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-slate-900 hover:bg-black active:scale-95 text-white font-bold transition shadow-md flex items-center justify-center gap-2">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            <span>X (Twitter) でシェア</span>
+        <!-- Share & Action Buttons (Bottom) -->
+        <div class="flex flex-wrap gap-4 items-center justify-center pt-8 pb-4">
+          <button onclick="shareResultTwitter()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#1DA1F2] hover:bg-[#1a8cd8] active:scale-95 text-white font-bold transition shadow-md flex items-center justify-center gap-2">
+            <svg class="w-5 h-5 fill-current text-white" viewBox="0 0 24 24">
+              <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.936 9.936 0 0024 4.59z"/>
+            </svg>
+            <span>Twitterにシェア</span>
           </button>
-          <button onclick="copyResultToClipboard()" class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white border border-slate-200 hover:bg-slate-50 active:scale-95 text-slate-700 font-bold transition shadow-xs flex items-center justify-center gap-2">
+          <button onclick="downloadResultImage()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-slate-900 hover:bg-black active:scale-95 text-white font-bold transition shadow-md flex items-center justify-center gap-2">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+            </svg>
+            <span>結果画像を保存</span>
+          </button>
+          <button onclick="copyResultImageToClipboard()" class="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-white border border-purple-300 hover:bg-purple-50 active:scale-95 text-purple-700 font-bold transition shadow-xs flex items-center justify-center gap-2">
+            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75"/>
+            </svg>
+            <span>画像をクリップボードにコピー</span>
+          </button>
+          <button onclick="copyResultToClipboard()" class="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-white border border-slate-200 hover:bg-slate-50 active:scale-95 text-slate-700 font-bold transition shadow-xs flex items-center justify-center gap-2">
             <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"/></svg>
             <span>結果テキストをコピー</span>
           </button>
-          <button onclick="showView('encyclopedia')" class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold transition flex items-center justify-center gap-1.5">
+          <button onclick="showView('encyclopedia')" class="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold transition flex items-center justify-center gap-1.5">
             <span>16タイプ図鑑を見る</span>
           </button>
-          <button onclick="startQuiz()" class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold transition">
+          <button onclick="startQuiz()" class="w-full sm:w-auto px-5 py-3.5 rounded-2xl bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold transition">
             もう一度診断する
           </button>
         </div>
       </div>
     </section>
+
+    <!-- ==================== OFF-SCREEN CAPTURE CARD (840x472 / 16:9 for Twitter) ==================== -->
+    <div id="twitter-share-card-capture" aria-hidden="true" style="position: fixed; left: -9999px; top: -9999px; width: 840px; height: 472px; overflow: hidden; font-family: 'Inter', 'Noto Sans JP', sans-serif; box-sizing: border-box; background: #ffffff;">
+      <div id="capture-card-inner" style="width: 840px; height: 472px; padding: 24px 32px; display: flex; flex-direction: column; justify-content: space-between; position: relative; box-sizing: border-box; background: #ffffff;">
+        
+        <!-- Header -->
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.06); padding-bottom: 10px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <span style="background: #0f172a; color: #ffffff; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; padding: 4px 10px; border-radius: 9999px; text-transform: uppercase;">
+              16MAID PERSONALITY TEST
+            </span>
+            <span id="capture-group-badge" style="font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 9999px; letter-spacing: 0.04em;">
+              参謀・統括グループ (ANALYST)
+            </span>
+          </div>
+          <div style="font-size: 11px; font-weight: 700; color: #64748b; letter-spacing: 0.05em;">
+            Created by shotata
+          </div>
+        </div>
+
+        <!-- Body (Avatar on Left, Details on Right) -->
+        <div style="display: flex; align-items: center; gap: 28px; flex: 1; margin-top: 10px; margin-bottom: 10px;">
+          <!-- Left: Avatar -->
+          <div style="width: 220px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center;">
+            <div id="capture-avatar" style="width: 190px; height: 190px; background: #ffffff; border: 1px solid rgba(0,0,0,0.08); border-radius: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: center; padding: 12px; box-sizing: border-box;">
+              <!-- SVG Avatar inserted here -->
+            </div>
+            <div style="margin-top: 8px; font-size: 10px; font-weight: 800; color: #94a3b8; letter-spacing: 0.12em; text-transform: uppercase;">
+              MAID PERSONALITY CODE
+            </div>
+          </div>
+
+          <!-- Right: Details -->
+          <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center;">
+            <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 2px;">
+              <span style="font-size: 44px; font-weight: 900; line-height: 1; color: #0f172a; letter-spacing: -0.02em;">
+                MAID
+              </span>
+              <span id="capture-title" style="font-size: 20px; font-weight: 800; color: #1e293b;">
+                冷徹なる参謀メイド (MAID-STRATEGIST)
+              </span>
+            </div>
+
+            <p id="capture-catchphrase" style="font-size: 12px; font-weight: 600; color: #475569; font-style: italic; margin-bottom: 12px; line-height: 1.4; border-left: 3px solid #8b5cf6; padding-left: 10px;">
+              「感情は時に判断を狂わせます。旦那様、私に従っていただければ勝利は確実です」
+            </p>
+
+            <!-- 4 MAID Word Cards (2x2 Grid) -->
+            <div id="capture-maid-words" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <!-- Populated via JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 8px;">
+          <div style="font-size: 11px; font-weight: 800; color: #64748b; letter-spacing: 0.05em;">
+            #16MAID診断 #MAID性格診断
+          </div>
+          <div style="font-size: 11px; font-weight: 700; color: #7c3aed; letter-spacing: 0.02em;">
+            https://shotata-rgb.github.io/16maid/
+          </div>
+        </div>
+
+      </div>
+    </div>
 
     <!-- ==================== ENCYCLOPEDIA VIEW (Unlocked after quiz) ==================== -->
     <section id="view-encyclopedia" class="hidden min-h-screen py-12 px-4 sm:px-6 transition-all duration-300">
@@ -1389,10 +1535,10 @@
       // Group badge & Card Theme
       const badge = document.getElementById('result-group-badge');
       badge.textContent = maid.groupName;
-      badge.className = `inline-block text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-4 ${maid.theme.badgeBg} ${maid.theme.badgeText}`;
+      badge.className = `inline-block text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-3 ${maid.theme.badgeBg} ${maid.theme.badgeText}`;
 
       const banner = document.getElementById('result-card-banner');
-      banner.className = `rounded-3xl border p-8 sm:p-12 text-center relative overflow-hidden shadow-xs transition ${maid.theme.bg} ${maid.theme.border}`;
+      banner.className = `rounded-3xl border p-6 sm:p-10 relative overflow-hidden shadow-xs transition ${maid.theme.bg} ${maid.theme.border}`;
 
       // Titles & Catchphrase (ALL CAPS MAID IS ALWAYS FIXED)
       document.getElementById('result-title').textContent = `${maid.name} (${maid.subCode})`;
@@ -1400,6 +1546,32 @@
 
       // Avatar
       document.getElementById('result-avatar').innerHTML = getUniqueMaidAvatarSvg(maid.id);
+
+      // Banner Quick Mini Tags
+      const miniTags = document.getElementById('banner-maid-mini-tags');
+      if (miniTags) {
+        miniTags.innerHTML = `
+          <div class="px-3 py-2 rounded-xl bg-white/80 backdrop-blur-xs border border-slate-200/80 flex items-center justify-between text-xs shadow-2xs">
+            <span class="font-extrabold text-purple-700">M · ${mw.m.word}</span>
+            <span class="text-slate-500 font-medium text-[11px]">${mw.m.ja}</span>
+          </div>
+          <div class="px-3 py-2 rounded-xl bg-white/80 backdrop-blur-xs border border-slate-200/80 flex items-center justify-between text-xs shadow-2xs">
+            <span class="font-extrabold text-emerald-700">A · ${mw.a.word}</span>
+            <span class="text-slate-500 font-medium text-[11px]">${mw.a.ja}</span>
+          </div>
+          <div class="px-3 py-2 rounded-xl bg-white/80 backdrop-blur-xs border border-slate-200/80 flex items-center justify-between text-xs shadow-2xs">
+            <span class="font-extrabold text-sky-700">I · ${mw.i.word}</span>
+            <span class="text-slate-500 font-medium text-[11px]">${mw.i.ja}</span>
+          </div>
+          <div class="px-3 py-2 rounded-xl bg-white/80 backdrop-blur-xs border border-slate-200/80 flex items-center justify-between text-xs shadow-2xs">
+            <span class="font-extrabold text-amber-700">D · ${mw.d.word}</span>
+            <span class="text-slate-500 font-medium text-[11px]">${mw.d.ja}</span>
+          </div>
+        `;
+      }
+
+      // Render Off-screen Capture Card for 16:9 Twitter Export
+      renderCaptureCard(maid, s, mw);
 
       // Render 4 MAID Core Cards
       const coreGrid = document.getElementById('result-maid-core-grid');
@@ -1728,6 +1900,9 @@
     /* =========================================================================
        SHARE & CLIPBOARD
        ========================================================================= */
+    /* =========================================================================
+       SHARE & CLIPBOARD & TWITTER EXPORT
+       ========================================================================= */
     function showToast(msg) {
       const toast = document.getElementById('toast');
       document.getElementById('toast-message').textContent = msg;
@@ -1737,14 +1912,203 @@
       setTimeout(() => {
         toast.classList.remove('toast-show');
         toast.classList.add('toast-enter');
-      }, 2500);
+      }, 3000);
+    }
+
+    function renderCaptureCard(maid, s, mw) {
+      const groupThemes = {
+        'ANALYST': { bg: '#faf5ff', border: '#d8b4fe', badgeBg: '#f3e8ff', badgeText: '#6b21a8', accent: '#7e22ce' },
+        'DIPLOMAT': { bg: '#f0fdf4', border: '#86efac', badgeBg: '#dcfce7', badgeText: '#166534', accent: '#15803d' },
+        'SENTINEL': { bg: '#f0f9ff', border: '#7dd3fc', badgeBg: '#e0f2fe', badgeText: '#075985', accent: '#0284c7' },
+        'EXPLORER': { bg: '#fffbeb', border: '#fcd34d', badgeBg: '#fef3c7', badgeText: '#92400e', accent: '#b45309' }
+      };
+      const theme = groupThemes[maid.group] || groupThemes['ANALYST'];
+
+      const inner = document.getElementById('capture-card-inner');
+      if (inner) {
+        inner.style.background = `linear-gradient(135deg, #ffffff 0%, ${theme.bg} 100%)`;
+        inner.style.border = `2px solid ${theme.border}`;
+      }
+
+      const gBadge = document.getElementById('capture-group-badge');
+      if (gBadge) {
+        gBadge.textContent = maid.groupName;
+        gBadge.style.background = theme.badgeBg;
+        gBadge.style.color = theme.badgeText;
+      }
+
+      const avatar = document.getElementById('capture-avatar');
+      if (avatar) {
+        avatar.innerHTML = getUniqueMaidAvatarSvg(maid.id);
+      }
+
+      const title = document.getElementById('capture-title');
+      if (title) {
+        title.textContent = `${maid.name} (${maid.subCode})`;
+      }
+
+      const cp = document.getElementById('capture-catchphrase');
+      if (cp) {
+        cp.textContent = `「${maid.catchphrase}」`;
+        cp.style.borderLeft = `3px solid ${theme.accent}`;
+      }
+
+      const wordsGrid = document.getElementById('capture-maid-words');
+      if (wordsGrid) {
+        wordsGrid.innerHTML = `
+          <!-- M -->
+          <div style="background: rgba(255,255,255,0.9); border: 1px solid #e2e8f0; border-radius: 12px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 11px; font-weight: 900; background: #f3e8ff; color: #7e22ce; padding: 2px 6px; border-radius: 6px;">M</span>
+              <span style="font-size: 12px; font-weight: 800; color: #1e293b;">${mw.m.word}</span>
+            </div>
+            <span style="font-size: 11px; font-weight: 700; color: #64748b;">${mw.m.ja} (${s.m}%)</span>
+          </div>
+
+          <!-- A -->
+          <div style="background: rgba(255,255,255,0.9); border: 1px solid #e2e8f0; border-radius: 12px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 11px; font-weight: 900; background: #dcfce7; color: #15803d; padding: 2px 6px; border-radius: 6px;">A</span>
+              <span style="font-size: 12px; font-weight: 800; color: #1e293b;">${mw.a.word}</span>
+            </div>
+            <span style="font-size: 11px; font-weight: 700; color: #64748b;">${mw.a.ja} (${s.a}%)</span>
+          </div>
+
+          <!-- I -->
+          <div style="background: rgba(255,255,255,0.9); border: 1px solid #e2e8f0; border-radius: 12px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 11px; font-weight: 900; background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 6px;">I</span>
+              <span style="font-size: 12px; font-weight: 800; color: #1e293b;">${mw.i.word}</span>
+            </div>
+            <span style="font-size: 11px; font-weight: 700; color: #64748b;">${mw.i.ja} (${s.i}%)</span>
+          </div>
+
+          <!-- D -->
+          <div style="background: rgba(255,255,255,0.9); border: 1px solid #e2e8f0; border-radius: 12px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 11px; font-weight: 900; background: #fef3c7; color: #b45309; padding: 2px 6px; border-radius: 6px;">D</span>
+              <span style="font-size: 12px; font-weight: 800; color: #1e293b;">${mw.d.word}</span>
+            </div>
+            <span style="font-size: 11px; font-weight: 700; color: #64748b;">${mw.d.ja} (${s.d}%)</span>
+          </div>
+        `;
+      }
+    }
+
+    let isProcessingExport = false;
+
+    async function getResultImageBlob() {
+      const target = document.getElementById('twitter-share-card-capture');
+      if (!target) return null;
+      if (typeof html2canvas === 'undefined') {
+        throw new Error('html2canvas is not loaded');
+      }
+
+      // Render at 2x scale for crisp Retina display (1680x944)
+      const canvas = await html2canvas(target, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: null,
+        logging: false,
+        width: 840,
+        height: 472,
+        windowWidth: 840,
+        windowHeight: 472
+      });
+
+      return new Promise((resolve) => {
+        canvas.toBlob((blob) => {
+          resolve(blob);
+        }, 'image/png');
+      });
+    }
+
+    async function downloadResultImage() {
+      if (!calculatedResult || isProcessingExport) return;
+      isProcessingExport = true;
+      showToast('横長カード画像を生成中...');
+
+      try {
+        const blob = await getResultImageBlob();
+        if (!blob) throw new Error('画像の生成に失敗しました');
+
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `16MAID_${calculatedResult.item.id}.png`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('結果画像を保存しました');
+      } catch (err) {
+        console.error(err);
+        showToast('画像の生成・保存に失敗しました');
+      } finally {
+        isProcessingExport = false;
+      }
+    }
+
+    async function copyResultImageToClipboard() {
+      if (!calculatedResult || isProcessingExport) return;
+      isProcessingExport = true;
+      showToast('画像をコピー用に生成中...');
+
+      try {
+        const blob = await getResultImageBlob();
+        if (!blob) throw new Error('画像の生成に失敗しました');
+
+        if (navigator.clipboard && navigator.clipboard.write && window.ClipboardItem) {
+          const item = new ClipboardItem({ 'image/png': blob });
+          await navigator.clipboard.write([item]);
+          showToast('画像をクリップボードにコピーしました（Twitterで貼り付けできます）');
+        } else {
+          // 非対応環境では保存を案内して自動ダウンロード
+          downloadResultImage();
+          showToast('お使いの環境では画像コピー非対応のため、画像を保存しました');
+        }
+      } catch (err) {
+        console.error(err);
+        downloadResultImage();
+        showToast('クリップボードへの画像コピーが制限されていたため、画像を保存しました');
+      } finally {
+        isProcessingExport = false;
+      }
+    }
+
+    function shareResultTwitter() {
+      if (!calculatedResult) return;
+      const m = calculatedResult.item;
+      const mw = m.maidWords;
+      const siteUrl = 'https://shotata-rgb.github.io/16maid/';
+      const text = `【16MAID性格診断】私の診断結果は『MAID (${m.name})』でした！\n\n` +
+                   `M: ${mw.m.word} (${mw.m.ja})\n` +
+                   `A: ${mw.a.word} (${mw.a.ja})\n` +
+                   `I: ${mw.i.word} (${mw.i.ja})\n` +
+                   `D: ${mw.d.word} (${mw.d.ja})\n\n` +
+                   `「${m.catchphrase}」\n` +
+                   `#16MAID診断 #MAID性格診断`;
+      const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(siteUrl)}`;
+      window.open(tweetUrl, '_blank');
+      showToast('Twitterの投稿画面を開きました。「画像をクリップボードにコピー」から結果画像を添付できます');
+    }
+
+    function shareResult() {
+      shareResultTwitter();
     }
 
     function copyResultToClipboard() {
       if (!calculatedResult) return;
       const m = calculatedResult.item;
       const mw = m.maidWords;
-      const text = `【16MAID性格診断】\n私のタイプコードは『MAID (${m.name})』でした！\nMAID: ${mw.m.word} / ${mw.a.word} / ${mw.i.word} / ${mw.d.word}\n「${m.catchphrase}」\n#16MAID診断 #性格診断 #MAID`;
+      const text = `【16MAID性格診断】\n私のタイプコードは『MAID (${m.name})』でした！\n\n` +
+                   `M: ${mw.m.word} (${mw.m.ja})\n` +
+                   `A: ${mw.a.word} (${mw.a.ja})\n` +
+                   `I: ${mw.i.word} (${mw.i.ja})\n` +
+                   `D: ${mw.d.word} (${mw.d.ja})\n\n` +
+                   `「${m.catchphrase}」\n` +
+                   `https://shotata-rgb.github.io/16maid/\n` +
+                   `#16MAID診断 #性格診断 #MAID`;
 
       const tempInput = document.createElement('textarea');
       tempInput.value = text;
@@ -1752,20 +2116,11 @@
       tempInput.select();
       try {
         document.execCommand('copy');
-        showToast('診断結果をクリップボードにコピーしました');
+        showToast('診断結果テキストをクリップボードにコピーしました');
       } catch (err) {
-        showToast('コピーに失敗しました');
+        showToast('テキストのコピーに失敗しました');
       }
       document.body.removeChild(tempInput);
-    }
-
-    function shareResult() {
-      if (!calculatedResult) return;
-      const m = calculatedResult.item;
-      const mw = m.maidWords;
-      const text = encodeURIComponent(`【16MAID性格診断】私のタイプコードは『MAID (${m.name})』でした！\nMAID: ${mw.m.word} / ${mw.a.word} / ${mw.i.word} / ${mw.d.word}\n「${m.catchphrase}」\n#16MAID診断 #MAID性格診断`);
-      const url = `https://twitter.com/intent/tweet?text=${text}`;
-      window.open(url, '_blank');
     }
 
     /* =========================================================================
