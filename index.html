@@ -1,0 +1,2079 @@
+<!DOCTYPE html>
+<html lang="ja">
+<!--
+  =============================================================
+   16MAID Personality Project
+   Developed & Designed by shotata
+   
+   「おや、ソースコードを覗きに来られたのですか？
+     旦那様の探究心には感服いたします。
+     どうぞごゆっくりご覧くださいませ。」
+  =============================================================
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="shotata">
+  <title>16MAID診断 - あなたに宿るメイドの魂を解き明かす性格タイプ診断</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans JP', 'sans-serif'],
+          },
+          colors: {
+            analyst: {
+              light: '#f5f0fb',
+              border: '#e4d4f7',
+              text: '#7e47b8',
+              accent: '#8854c0',
+              badge: '#eedefc',
+            },
+            diplomat: {
+              light: '#eefaf4',
+              border: '#c7edd9',
+              text: '#278559',
+              accent: '#33a474',
+              badge: '#d3f5e5',
+            },
+            sentinel: {
+              light: '#f0f7fb',
+              border: '#cde4f4',
+              text: '#2d7999',
+              accent: '#3ca0c9',
+              badge: '#d9eefb',
+            },
+            explorer: {
+              light: '#fef7ec',
+              border: '#fde0b8',
+              text: '#b06f15',
+              accent: '#e59324',
+              badge: '#fdedd8',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #f8fafc;
+      color: #334155;
+      font-feature-settings: "palt";
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .scale-btn {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .scale-btn:hover {
+      transform: scale(1.15);
+    }
+    .toast-enter {
+      transform: translate(-50%, 20px);
+      opacity: 0;
+      transition: all 0.3s ease-out;
+    }
+    .toast-show {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+    .question-card-enter {
+      animation: qCardIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes qCardIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.99);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-purple-100 selection:text-purple-800">
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-xs">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3 cursor-pointer" onclick="showView('home')">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 via-indigo-600 to-sky-500 flex items-center justify-center text-white shadow-md shadow-purple-100">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 0 0 9-9V7l-4-3-5 2-5-2-4 3v5a9 9 0 0 0 9 9z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 10h6m-3-3v6" />
+          </svg>
+        </div>
+        <div>
+          <span class="font-black text-xl tracking-tight bg-gradient-to-r from-purple-700 via-indigo-600 to-sky-600 bg-clip-text text-transparent">16MAID</span>
+          <span class="text-[11px] font-bold text-slate-400 ml-1.5 px-2 py-0.5 bg-slate-100 rounded-full">PERSONALITY</span>
+        </div>
+      </div>
+      <nav class="flex items-center gap-3 sm:gap-6 text-sm font-semibold">
+        <button onclick="showView('home')" class="text-slate-600 hover:text-purple-600 transition">ホーム</button>
+        <button id="nav-encyclopedia-btn" onclick="handleNavEncyclopedia()" class="text-slate-500 hover:text-purple-600 transition flex items-center gap-1.5">
+          <svg id="nav-lock-svg" class="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <svg id="nav-unlocked-svg" class="w-4 h-4 text-purple-600 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+          <span>16タイプ図鑑</span>
+        </button>
+        <button onclick="startQuiz()" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 active:scale-95 text-white transition shadow-sm font-bold flex items-center gap-1.5">
+          <span>診断する (30問)</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    
+    <!-- ==================== HOME VIEW ==================== -->
+    <section id="view-home" class="transition-all duration-300">
+      <div class="relative overflow-hidden pt-16 pb-24 bg-gradient-to-b from-purple-50/60 via-white to-slate-50 border-b border-slate-100">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-100/80 border border-purple-200 text-purple-700 text-xs font-bold mb-8">
+            <span class="w-2 h-2 rounded-full bg-purple-600 animate-pulse"></span>
+            本格性格タイプ診断テスト
+          </div>
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-slate-800 leading-tight">
+            あなたの中に眠る<span class="bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 bg-clip-text text-transparent">メイドの真髄</span>を解き明かす
+          </h1>
+          <p class="mt-6 text-base sm:text-lg text-slate-600 max-w-xl mx-auto leading-relaxed">
+            人は誰しも誰かを支え、尽くし、世界を整える力を秘めています。日常や仕事における30の問いから、あなたの仕え方や奉仕スタイルを精密に導き出します。
+          </p>
+          <div class="mt-10 flex items-center justify-center">
+            <button onclick="startQuiz()" class="w-full sm:w-auto px-10 py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold text-lg shadow-lg shadow-purple-200 transition active:scale-95 flex items-center justify-center gap-2">
+              <span>性格診断をはじめる (全30問)</span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+            </button>
+          </div>
+          <div class="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400 font-medium">
+            <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> 所要時間 約5分</span>
+            <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> 完全無料・登録不要</span>
+            <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg> 30問の精密分析</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== QUIZ VIEW ==================== -->
+    <section id="view-quiz" class="hidden min-h-[85vh] py-10 px-4 sm:px-6 transition-all duration-300">
+      <div class="max-w-3xl mx-auto">
+        
+        <!-- Header Progress -->
+        <div class="mb-8">
+          <div class="flex justify-between items-center text-xs font-bold text-slate-500 mb-2">
+            <span id="quiz-progress-label">質問 1 / 30</span>
+            <span id="quiz-progress-percent" class="text-purple-600 font-extrabold">3%</span>
+          </div>
+          <div class="w-full h-3 bg-slate-200/80 rounded-full overflow-hidden p-0.5">
+            <div id="quiz-progress-bar" class="h-full bg-gradient-to-r from-purple-600 via-indigo-600 to-sky-500 rounded-full transition-all duration-300" style="width: 3.33%;"></div>
+          </div>
+        </div>
+
+        <!-- Question Card -->
+        <div id="question-card" class="bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-12 mb-8 text-center transition-all duration-300 question-card-enter">
+          
+          <h3 id="question-text" class="text-xl sm:text-2xl lg:text-3xl font-black text-slate-800 leading-snug min-h-[4.5rem] flex items-center justify-center">
+            質問テキストがここに表示されます
+          </h3>
+
+          <!-- MBTI 7-point Likert Scale Buttons -->
+          <div class="mt-10 sm:mt-14">
+            <div class="flex justify-between text-xs sm:text-sm font-extrabold text-slate-400 mb-5 px-3">
+              <span class="text-purple-700 flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                同意する
+              </span>
+              <span class="text-slate-400">中立</span>
+              <span class="text-slate-600 flex items-center gap-1.5">
+                同意しない
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 011.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+              </span>
+            </div>
+
+            <div class="flex items-center justify-between gap-1.5 sm:gap-4 py-4 px-3 sm:px-6 bg-slate-50/90 rounded-2xl border border-slate-100 shadow-inner">
+              <!-- Agree 3 (Big) -->
+              <button onclick="recordAnswer(3)" data-score="3" class="scale-btn w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 sm:border-[3px] border-purple-600 bg-purple-100 text-purple-700 flex items-center justify-center hover:bg-purple-600 hover:text-white font-black text-sm sm:text-base shadow-xs" title="強く同意する">
+                <span class="hidden sm:inline">大</span>
+              </button>
+              <!-- Agree 2 (Medium) -->
+              <button onclick="recordAnswer(2)" data-score="2" class="scale-btn w-10 h-10 sm:w-13 sm:h-13 rounded-full border-2 border-purple-500 bg-purple-50 text-purple-600 flex items-center justify-center hover:bg-purple-500 hover:text-white font-bold text-xs sm:text-sm shadow-xs" title="同意する">
+                <span class="hidden sm:inline">中</span>
+              </button>
+              <!-- Agree 1 (Small) -->
+              <button onclick="recordAnswer(1)" data-score="1" class="scale-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-purple-400 bg-white text-purple-500 flex items-center justify-center hover:bg-purple-400 hover:text-white font-semibold text-xs shadow-xs" title="やや同意する">
+                <span class="hidden sm:inline">小</span>
+              </button>
+              <!-- Neutral (Tiny) -->
+              <button onclick="recordAnswer(0)" data-score="0" class="scale-btn w-7 h-7 sm:w-9 sm:h-9 rounded-full border-2 border-slate-300 bg-white text-slate-400 flex items-center justify-center hover:bg-slate-300 hover:text-white text-xs font-bold" title="中立">
+                •
+              </button>
+              <!-- Disagree 1 (Small) -->
+              <button onclick="recordAnswer(-1)" data-score="-1" class="scale-btn w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-slate-400 bg-white text-slate-500 flex items-center justify-center hover:bg-slate-500 hover:text-white font-semibold text-xs shadow-xs" title="やや同意しない">
+                <span class="hidden sm:inline">小</span>
+              </button>
+              <!-- Disagree 2 (Medium) -->
+              <button onclick="recordAnswer(-2)" data-score="-2" class="scale-btn w-10 h-10 sm:w-13 sm:h-13 rounded-full border-2 border-slate-500 bg-slate-100 text-slate-700 flex items-center justify-center hover:bg-slate-600 hover:text-white font-bold text-xs sm:text-sm shadow-xs" title="同意しない">
+                <span class="hidden sm:inline">中</span>
+              </button>
+              <!-- Disagree 3 (Big) -->
+              <button onclick="recordAnswer(-3)" data-score="-3" class="scale-btn w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 sm:border-[3px] border-slate-700 bg-slate-200 text-slate-800 flex items-center justify-center hover:bg-slate-800 hover:text-white font-black text-sm sm:text-base shadow-xs" title="強く同意しない">
+                <span class="hidden sm:inline">大</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between items-center">
+          <button id="btn-quiz-prev" onclick="previousQuestion()" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-semibold hover:bg-slate-50 transition disabled:opacity-30 disabled:pointer-events-none flex items-center gap-1.5">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>
+            <span>前の質問へ</span>
+          </button>
+          <button onclick="showView('home')" class="text-xs text-slate-400 hover:text-slate-600 transition underline">
+            診断を中断して戻る
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== LOADING VIEW ==================== -->
+    <section id="view-loading" class="hidden min-h-[75vh] flex flex-col items-center justify-center px-4">
+      <div class="w-20 h-20 rounded-3xl bg-purple-50 border-2 border-purple-200 flex items-center justify-center text-purple-600 mb-6 shadow-md animate-bounce">
+        <svg class="w-10 h-10 animate-spin" viewBox="0 0 24 24" fill="none">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+      </div>
+      <h3 class="text-2xl font-black text-slate-800 mb-2">奉仕特性を精密計算中...</h3>
+      <p id="loading-subtext" class="text-slate-500 text-sm animate-pulse">30の回答データから4軸のパラメータを照合しています</p>
+    </section>
+
+    <!-- ==================== RESULT VIEW ==================== -->
+    <section id="view-result" class="hidden min-h-screen py-12 px-4 sm:px-6 transition-all duration-300">
+      <div class="max-w-4xl mx-auto space-y-10">
+        
+        <!-- Header Banner Card -->
+        <div id="result-card-banner" class="rounded-3xl border p-8 sm:p-12 text-center relative overflow-hidden shadow-xs transition">
+          <div class="relative z-10">
+            <span id="result-group-badge" class="inline-block text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-4">
+              参謀・統括グループ (ANALYST)
+            </span>
+            <div class="text-xs font-extrabold text-slate-500 tracking-widest uppercase mb-1">YOUR PERSONALITY CODE</div>
+            
+            <!-- ALL CAPS MAID ALWAYS FIXED -->
+            <h2 class="text-6xl sm:text-8xl font-black tracking-tight text-slate-900 mb-2">
+              MAID
+            </h2>
+            <div id="result-title" class="text-2xl sm:text-4xl font-extrabold text-slate-800 mb-3">
+              冷徹なる参謀メイド
+            </div>
+            <p id="result-catchphrase" class="text-slate-600 max-w-xl mx-auto text-base sm:text-lg italic font-medium">
+              「感情は時に判断を狂わせます。旦那様、私に従っていただければ勝利は確実です」
+            </p>
+          </div>
+
+          <!-- Avatar Illustration Container -->
+          <div class="mt-8 flex justify-center">
+            <div id="result-avatar" class="w-44 h-44 sm:w-52 sm:h-52 rounded-3xl bg-white/90 backdrop-blur-sm border shadow-md flex items-center justify-center p-4">
+              <!-- Dynamically populated SVG -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 MAID Core Cards (User Specific Acronym) -->
+        <div class="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-10 shadow-xs">
+          <div class="text-center sm:text-left mb-6">
+            <span class="text-xs font-extrabold text-purple-600 tracking-wider uppercase">MAID CORE IDENTITY</span>
+            <h3 class="text-xl font-bold text-slate-800">あなたを形作る4つのMAIDコア</h3>
+            <p class="text-xs text-slate-500 mt-1">あなたのタイプを定義する固有のM・A・I・Dキーワード</p>
+          </div>
+
+          <div id="result-maid-core-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Dynamically populated via JavaScript -->
+          </div>
+        </div>
+
+        <!-- 4 Dimension Bar Breakdown (Aligned with the 4 MAID words) -->
+        <div class="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-10 shadow-xs">
+          <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+            <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+            MAID特性パラメータ分析
+          </h3>
+          <div class="space-y-6" id="result-maid-bars">
+            <!-- Dynamically populated via JavaScript -->
+          </div>
+        </div>
+
+        <!-- Description & Personality -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xs">
+            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-purple-600"></span>
+              メイドとしての本質と基本性格
+            </h3>
+            <p id="result-description" class="text-sm text-slate-600 leading-relaxed">
+              説明文がここに入ります。
+            </p>
+          </div>
+
+          <div class="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-8 shadow-xs">
+            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-indigo-600"></span>
+              仕える主人との関係性スタイル
+            </h3>
+            <p id="result-master-relation" class="text-sm text-slate-600 leading-relaxed">
+              主従関係の特徴がここに入ります。
+            </p>
+          </div>
+        </div>
+
+        <!-- Strengths & Weaknesses Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div class="bg-emerald-50/60 rounded-3xl border border-emerald-200/60 p-6 sm:p-8">
+            <h4 class="font-bold text-emerald-900 mb-3 flex items-center gap-2 text-sm">
+              <svg class="w-4 h-4 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              卓越した奉仕能力（長所）
+            </h4>
+            <ul id="result-strengths" class="space-y-2 text-xs sm:text-sm text-slate-600">
+              <!-- Strengths list -->
+            </ul>
+          </div>
+          <div class="bg-rose-50/60 rounded-3xl border border-rose-200/60 p-6 sm:p-8">
+            <h4 class="font-bold text-rose-900 mb-3 flex items-center gap-2 text-sm">
+              <svg class="w-4 h-4 text-rose-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+              注意すべき傾向（弱点）
+            </h4>
+            <ul id="result-weaknesses" class="space-y-2 text-xs sm:text-sm text-slate-600">
+              <!-- Weaknesses list -->
+            </ul>
+          </div>
+        </div>
+
+        <!-- Maid Compatibility Section -->
+        <div class="bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-10 shadow-xs">
+          <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/></svg>
+            メイド同士の相性分析
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="result-compatibility-cards">
+            <!-- Populated via JavaScript -->
+          </div>
+        </div>
+
+        <!-- Share & Action Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 items-center justify-center pt-6">
+          <button onclick="shareResult()" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-slate-900 hover:bg-black active:scale-95 text-white font-bold transition shadow-md flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            <span>X (Twitter) でシェア</span>
+          </button>
+          <button onclick="copyResultToClipboard()" class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white border border-slate-200 hover:bg-slate-50 active:scale-95 text-slate-700 font-bold transition shadow-xs flex items-center justify-center gap-2">
+            <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184"/></svg>
+            <span>結果テキストをコピー</span>
+          </button>
+          <button onclick="showView('encyclopedia')" class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold transition flex items-center justify-center gap-1.5">
+            <span>16タイプ図鑑を見る</span>
+          </button>
+          <button onclick="startQuiz()" class="w-full sm:w-auto px-6 py-4 rounded-2xl bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold transition">
+            もう一度診断する
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ENCYCLOPEDIA VIEW (Unlocked after quiz) ==================== -->
+    <section id="view-encyclopedia" class="hidden min-h-screen py-12 px-4 sm:px-6 transition-all duration-300">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex items-center justify-between mb-8 pb-4 border-b border-slate-200">
+          <div>
+            <span class="text-xs font-bold text-purple-600 tracking-widest uppercase">UNLOCKED DIRECTORY</span>
+            <h2 class="text-2xl sm:text-3xl font-black text-slate-800">16タイプ大図鑑</h2>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="backToResult()" id="btn-back-to-result" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold transition shadow-xs">
+              ← 診断結果に戻る
+            </button>
+            <button onclick="showView('home')" class="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold transition">
+              ホーム
+            </button>
+          </div>
+        </div>
+
+        <div id="encyclopedia-grid" class="space-y-12">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="mt-20 border-t border-slate-200 bg-white py-8 text-center text-xs text-slate-400">
+    <div class="max-w-6xl mx-auto px-4">
+      <p class="font-bold text-slate-600 mb-1">Created by shotata</p>
+      <p>© 2026 16MAID Personality Project.</p>
+    </div>
+  </footer>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div id="toast" class="toast-enter fixed bottom-8 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-2xl bg-slate-800 text-white text-xs font-semibold shadow-xl flex items-center gap-2 pointer-events-none">
+    <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+    <span id="toast-message">メッセージ</span>
+  </div>
+
+  <!-- ==================== TYPE DETAIL MODAL ==================== -->
+  <div id="type-modal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto custom-scroll border border-slate-100 shadow-2xl p-6 sm:p-8 relative">
+      <button onclick="closeTypeModal()" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center font-bold transition">
+        ✕
+      </button>
+      <div id="modal-content">
+        <!-- Filled via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* =========================================================================
+       DEVELOPER EASTER EGG (Console Message by shotata)
+       ========================================================================= */
+    console.log(
+      "%c" +
+      "  ____ _____  __  __    _    ___ ____  \n" +
+      " / ___|___ / |  \\/  |  / \\  |_ _|  _ \\ \n" +
+      "| |     |_ \\ | |\\/| | / _ \\  | || | | |\n" +
+      "| |___ ___) || |  | |/ ___ \\ | || |_| |\n" +
+      " \\____|____/ |_|  |_/_/   \\_\\___|____/ \n" +
+      "         Created by shotata            \n",
+      "color: #8854c0; font-family: monospace; font-weight: bold;"
+    );
+    console.log(
+      "%c「旦那様、裏口から屋敷の構造を調査されるとは……さすがでございます。\n" +
+      "当屋敷のシステムはshotataによって精巧に設計されております。\n" +
+      "どうぞ隅々までお楽しみくださいませ。」\n\n" +
+      "ヒント: コンソールで shotata() または maid() と入力してみてください。",
+      "color: #33a474; font-size: 12px; font-weight: bold;"
+    );
+
+    window.shotata = function() {
+      console.log(
+        "%c[shotata]: 16MAID診断を見つけてくれてありがとうございます！\n" +
+        "全16タイプの固有MAID単語やSVGキャラクターまでこだわって作りました。\n" +
+        "気に入っていただけたらぜひお友達にもシェアしてくださいね！",
+        "color: #6366f1; font-weight: bold; font-size: 13px;"
+      );
+      return "Thank you for inspecting the code!";
+    };
+
+    window.maid = function() {
+      console.log(
+        "%c[至高の筆頭メイド]: 旦那様、お紅茶のおかわりはいかがでしょうか？\n" +
+        "アールグレイの香りと共に、穏やかなひとときをお過ごしくださいませ。",
+        "color: #8854c0; font-style: italic; font-size: 13px;"
+      );
+      return "Tea served with care.";
+    };
+
+    /* =========================================================================
+       16MAID DATABASE (Configurable & Easy to Maintain)
+       Each type has its unique 4 MAID core words (M, A, I, D)
+       ========================================================================= */
+    const MAID_DATABASE = [
+      // ================= ANALYST GROUP (Purple) =================
+      {
+        id: 'MAID-STRATEGIST',
+        code: 'MAID',
+        subCode: 'MAID-STRATEGIST',
+        group: 'analyst',
+        groupName: '参謀・統括グループ (ANALYST)',
+        name: '冷徹なる参謀メイド',
+        catchphrase: '「感情は時に判断を狂わせます。旦那様、私に従っていただければ勝利は確実です」',
+        // 固有の M · A · I · D 定義
+        maidWords: {
+          m: { letter: 'M', word: 'Methodical', ja: '周到', desc: '盤石の布石を打つ緻密な計画力' },
+          a: { letter: 'A', word: 'Analytical', ja: '分析', desc: '感情に惑わされない客観的合理性' },
+          i: { letter: 'I', word: 'Insightful', ja: '洞察', desc: '未来の展開を予見する高い先見眼' },
+          d: { letter: 'D', word: 'Disciplined', ja: '規律', desc: '秒単位の自己統御と厳格な自律' }
+        },
+        axis: { m: 80, a: 20, i: 88, d: 85 },
+        theme: {
+          bg: 'bg-purple-50',
+          border: 'border-purple-200',
+          badgeBg: 'bg-purple-100',
+          badgeText: 'text-purple-700',
+          accent: '#8854c0'
+        },
+        desc: '主人の社会的勝利と長期的利益のため、冷徹に情報とスケジュールを最適化する軍師型。無駄な感傷を排し、高い先見性と合理的な根回しで盤石の足場を固めます。',
+        masterRelation: '甘やかすことは一切なく、主人の能力を最大限に引き出すため時に厳しい正論を放ちます。主人が高い成果を出した時にだけ僅かに口角を上げます。',
+        strengths: ['冷徹な状況分析と先読み', '感情に流されない危機管理', '主人の資産・スケジュールの完全掌握'],
+        weaknesses: ['共感性に欠けると誤解されやすい', '正論すぎて周囲を萎縮させることがある'],
+        bestMatch: 'MAID-CHARMER',
+        goodMatch: 'MAID-OPERATOR',
+        clashMatch: 'MAID-CHEER'
+      },
+      {
+        id: 'MAID-FIXER',
+        code: 'MAID',
+        subCode: 'MAID-FIXER',
+        group: 'analyst',
+        groupName: '参謀・統括グループ (ANALYST)',
+        name: '飄々たる策士メイド',
+        catchphrase: '「旦那様、また窮地ですか？ふふ、この私に少しだけ貸しを作っていただけますか？」',
+        maidWords: {
+          m: { letter: 'M', word: 'Manipulative', ja: '策略', desc: '状況を意のままに動かす機略' },
+          a: { letter: 'A', word: 'Autonomous', ja: '自律', desc: '組織の常識にとらわれない独立思考' },
+          i: { letter: 'I', word: 'Ingenious', ja: '奇抜', desc: '誰も思いつかない奇策とひらめき' },
+          d: { letter: 'D', word: 'Deft', ja: '機敏', desc: '突発的な危機を涼しい顔でかわす軽妙さ' }
+        },
+        axis: { m: 75, a: 30, i: 85, d: 35 },
+        theme: {
+          bg: 'bg-purple-50',
+          border: 'border-purple-200',
+          badgeBg: 'bg-purple-100',
+          badgeText: 'text-purple-700',
+          accent: '#8854c0'
+        },
+        desc: '合理的な知恵と柔軟なアドリブを持ち合わせたトリックスター。規律や慣習に縛られず、涼しい顔をして奇策や裏工作で屋敷のピンチを軽やかに打破します。',
+        masterRelation: '主人をからかいながらも、窮地には誰よりも頼れる相棒。堅苦しい規則よりも主人の本音と実利を優先します。',
+        strengths: ['機転と突発的なトラブル対応力', '社交の裏をかく情報戦', '型にはまらない問題解決能力'],
+        weaknesses: ['真面目な儀礼やルーチン掃除をサボりがち', '何を考えているか本心が読めない'],
+        bestMatch: 'MAID-DIRECTOR',
+        goodMatch: 'MAID-SCHOLAR',
+        clashMatch: 'MAID-GUARDIAN'
+      },
+      {
+        id: 'MAID-EMPRESS',
+        code: 'MAID',
+        subCode: 'MAID-EMPRESS',
+        group: 'analyst',
+        groupName: '参謀・統括グループ (ANALYST)',
+        name: '屋敷を牛耳る女帝メイド',
+        catchphrase: '「旦那様はただ優雅にお茶を召し上がっていれば結構です。すべて私の采配通りに進んでおります」',
+        maidWords: {
+          m: { letter: 'M', word: 'Monarchical', ja: '君臨', desc: '屋敷全体を統率する圧倒的な威厳' },
+          a: { letter: 'A', word: 'Authoritative', ja: '統率', desc: '揺るぎないリーダーシップと決断力' },
+          i: { letter: 'I', word: 'Influential', ja: '掌握', desc: '対外折衝と人心を操る影響力' },
+          d: { letter: 'D', word: 'Dominant', ja: '支配', desc: '完璧な秩序を敷き詰めるガバナンス' }
+        },
+        axis: { m: 30, a: 25, i: 85, d: 88 },
+        theme: {
+          bg: 'bg-purple-50',
+          border: 'border-purple-200',
+          badgeBg: 'bg-purple-100',
+          badgeText: 'text-purple-700',
+          accent: '#8854c0'
+        },
+        desc: '家政・財務・対外折衝を完全掌握する影の当主。主人の名声と屋敷全体の繁栄を揺るぎないものにするトップマネージャーです。',
+        masterRelation: '主人を誰よりも立てつつも、実権はすべて自分が握るスタイル。主人を立派な当主に育てることに矜持を持っています。',
+        strengths: ['屋敷全体の大規模マネジメント', '冷徹な交渉力とリーダーシップ', '徹底した組織ガバナンス'],
+        weaknesses: ['主人の自由を制限しすぎる傾向', '過度に支配的になりやすい'],
+        bestMatch: 'MAID-DEVOTION',
+        goodMatch: 'MAID-HOSTESS',
+        clashMatch: 'MAID-KNIGHT'
+      },
+      {
+        id: 'MAID-SCHOLAR',
+        code: 'MAID',
+        subCode: 'MAID-SCHOLAR',
+        group: 'analyst',
+        groupName: '参謀・統括グループ (ANALYST)',
+        name: '大書庫の探究メイド',
+        catchphrase: '「旦那様が仰っていた古文書の記述、第3書庫の12段目にありました。……あ、お茶はまだ淹れてません」',
+        maidWords: {
+          m: { letter: 'M', word: 'Mindful', ja: '思索', desc: '膨大な知識を蓄える知的好奇心' },
+          a: { letter: 'A', word: 'Academic', ja: '学究', desc: '論理的真理をどこまでも探究する精神' },
+          i: { letter: 'I', word: 'Intellectual', ja: '知略', desc: '古文書や情勢を読み解く高度な頭脳' },
+          d: { letter: 'D', word: 'Dialectical', ja: '弁証', desc: '矛盾を鋭く見抜く批判的思考力' }
+        },
+        axis: { m: 40, a: 30, i: 90, d: 40 },
+        theme: {
+          bg: 'bg-purple-50',
+          border: 'border-purple-200',
+          badgeBg: 'bg-purple-100',
+          badgeText: 'text-purple-700',
+          accent: '#8854c0'
+        },
+        desc: '家事よりも調査・学術・情報収集に特化した頭脳派メイド。屋敷の蔵書や記録をすべて把握しており、主人の難問に正確無比な解を提示します。',
+        masterRelation: '知的好奇心を共有できる主人を尊敬し、主人の研究や知的活動を裏から支えることに最大の喜びを感じます。',
+        strengths: ['膨大な知識量とリサーチ力', '論理的矛盾の早期発見', '専門的・知的な代行業務'],
+        weaknesses: ['掃除や配膳などの肉体労働が苦手', '自分の世界に没頭して返事を忘れる'],
+        bestMatch: 'MAID-GUARDIAN',
+        goodMatch: 'MAID-FIXER',
+        clashMatch: 'MAID-DIRECTOR'
+      },
+
+      // ================= DIPLOMAT GROUP (Green) =================
+      {
+        id: 'MAID-SOVEREIGN',
+        code: 'MAID',
+        subCode: 'MAID-SOVEREIGN',
+        group: 'diplomat',
+        groupName: '情緒・共感グループ (DIPLOMAT)',
+        name: '至高の筆頭メイド',
+        catchphrase: '「旦那様、お心の内はすべて察しております。どうぞご安心の上、私にお任せください」',
+        maidWords: {
+          m: { letter: 'M', word: 'Majestic', ja: '気品', desc: '全メイドの模範たる揺るぎない品格' },
+          a: { letter: 'A', word: 'Affectionate', ja: '慈愛', desc: '主人の苦悩を静かに包み込む深い情愛' },
+          i: { letter: 'I', word: 'Intuitive', ja: '直感', desc: '言葉にされない本音を察知する感性' },
+          d: { letter: 'D', word: 'Dedicated', ja: '至誠', desc: '主人への永遠の忠誠と不変の献身' }
+        },
+        axis: { m: 85, a: 80, i: 85, d: 88 },
+        theme: {
+          bg: 'bg-emerald-50',
+          border: 'border-emerald-200',
+          badgeBg: 'bg-emerald-100',
+          badgeText: 'text-emerald-700',
+          accent: '#33a474'
+        },
+        desc: '主人の心を完璧に理解し、格式と礼儀を一切崩さない正統派の象徴。深い愛情を持ちながらも厳格な規律で仕える、全メイドの理想型です。',
+        masterRelation: '主人の孤独や苦悩を誰よりも早く察知し、静かに寄り添います。主人が立派な道を歩めるよう全霊で導きます。',
+        strengths: ['深い共感力と上品な立ち振る舞い', '高い忠誠心と先回りの配慮', '屋敷の格式を守る誇り高い仕事ぶり'],
+        weaknesses: ['自分の疲労を限界まで隠してしまう', '主人のために抱え込みすぎる'],
+        bestMatch: 'MAID-KNIGHT',
+        goodMatch: 'MAID-MENTOR',
+        clashMatch: 'MAID-STRIKER'
+      },
+      {
+        id: 'MAID-CHARMER',
+        code: 'MAID',
+        subCode: 'MAID-CHARMER',
+        group: 'diplomat',
+        groupName: '情緒・共感グループ (DIPLOMAT)',
+        name: 'からかい上手な懐刀メイド',
+        catchphrase: '「ふふっ、またそんな難しいお顔をして。ほら、私の淹れたハーブティーを召し上がれ」',
+        maidWords: {
+          m: { letter: 'M', word: 'Mischievous', ja: '茶目', desc: '主人の緊張を解きほぐす小悪魔な愛嬌' },
+          a: { letter: 'A', word: 'Attentive', ja: '細心', desc: '心の微細な痛みに寄り添う繊細な気配り' },
+          i: { letter: 'I', word: 'Intimate', ja: '親密', desc: '形式を超えた魂の深いパートナーシップ' },
+          d: { letter: 'D', word: 'Devoted', ja: '専念', desc: '誰よりも主人の幸福を願うひたむきさ' }
+        },
+        axis: { m: 85, a: 80, i: 80, d: 40 },
+        theme: {
+          bg: 'bg-emerald-50',
+          border: 'border-emerald-200',
+          badgeBg: 'bg-emerald-100',
+          badgeText: 'text-emerald-700',
+          accent: '#33a474'
+        },
+        desc: '主人の心の機微を鋭く見抜き、適度なからかいと茶目っ気で主人の緊張をほぐす側近。堅苦しい主従関係の枠を超えた親愛の絆を築きます。',
+        masterRelation: '本音でぶつかり合える特別な理解者。主人が一人で抱え込んでいる時に、軽妙な言葉で救い出します。',
+        strengths: ['高い心理的洞察力', '主人のストレスや緊張の緩和', '臨機応変な親密コミュニケーション'],
+        weaknesses: ['礼儀作法をあえて崩すため周囲から誤解される', '厳粛な儀式で不真面目に見える'],
+        bestMatch: 'MAID-STRATEGIST',
+        goodMatch: 'MAID-SOVEREIGN',
+        clashMatch: 'MAID-OPERATOR'
+      },
+      {
+        id: 'MAID-MENTOR',
+        code: 'MAID',
+        subCode: 'MAID-MENTOR',
+        group: 'diplomat',
+        groupName: '情緒・共感グループ (DIPLOMAT)',
+        name: '屋敷を照らす聖母メイド',
+        catchphrase: '「旦那様なら必ず乗り越えられます。私がいつでも、ここでお帰りをお待ちしております」',
+        maidWords: {
+          m: { letter: 'M', word: 'Maternal', ja: '母性', desc: 'すべての人を温かく育む大いなる包容力' },
+          a: { letter: 'A', word: 'Altruistic', ja: '利他', desc: '他者の成長と屋敷の円満を第一とする無私' },
+          i: { letter: 'I', word: 'Inspiring', ja: '啓発', desc: '人々の前向きな力を引き出す精神的支柱' },
+          d: { letter: 'D', word: 'Diplomatic', ja: '調和', desc: '対立を丸く収める卓越した調停力' }
+        },
+        axis: { m: 45, a: 85, i: 80, d: 85 },
+        theme: {
+          bg: 'bg-emerald-50',
+          border: 'border-emerald-200',
+          badgeBg: 'bg-emerald-100',
+          badgeText: 'text-emerald-700',
+          accent: '#33a474'
+        },
+        desc: '主人だけでなく屋敷の全使用人を大きな包容力で包み込む精神的支柱。人々の心を前向きに励まし、屋敷内の空気を常に円満に保ちます。',
+        masterRelation: '悩める主人を優しく肯定し、背中を押してくれるメンターのような存在。主人の自信を育みます。',
+        strengths: ['卓越した人材育成と調和力', '人々のモチベーションを高める力', '誰からも愛される温かな品格'],
+        weaknesses: ['他人の悩みを背負い込みすぎて疲弊する', '規律より情を優先してしまうことがある'],
+        bestMatch: 'MAID-OPERATOR',
+        goodMatch: 'MAID-SOVEREIGN',
+        clashMatch: 'MAID-FIXER'
+      },
+      {
+        id: 'MAID-DIPLOMAT',
+        code: 'MAID',
+        subCode: 'MAID-DIPLOMAT',
+        group: 'diplomat',
+        groupName: '情緒・共感グループ (DIPLOMAT)',
+        name: '社交界のバランサーメイド',
+        catchphrase: '「あちらのお客様、少し退屈そうですね。軽妙な話題を振って参りましょうか」',
+        maidWords: {
+          m: { letter: 'M', word: 'Magnetic', ja: '魅力', desc: '人々を自然と惹きつける天性の社交性' },
+          a: { letter: 'A', word: 'Adaptable', ja: '柔軟', desc: 'どんな相手や場にも軽やかに馴染む融通' },
+          i: { letter: 'I', word: 'Interpersonal', ja: '対人', desc: '社交の場を優雅に差配する人間関係力' },
+          d: { letter: 'D', word: 'Delightful', ja: '歓待', desc: '訪れる客を笑顔にする心地よいもてなし' }
+        },
+        axis: { m: 40, a: 75, i: 75, d: 45 },
+        theme: {
+          bg: 'bg-emerald-50',
+          border: 'border-emerald-200',
+          badgeBg: 'bg-emerald-100',
+          badgeText: 'text-emerald-700',
+          accent: '#33a474'
+        },
+        desc: '人の心の機微を察し、軽やかな気配りと柔軟な立ち回りで屋敷内外の人間関係を円満にする現場の交渉役。場に応じたアドリブが得意です。',
+        masterRelation: '主人の対人関係をスムーズに取り持ちます。気まずい沈黙を巧みなフォローで救う頼れるパートナーです。',
+        strengths: ['機転の利くコミュニケーション', '対立を丸く収める調停力', '臨機応変な社交センス'],
+        weaknesses: ['八方美人と思われてしまうことがある', '厳しい決断を先延ばしにしがち'],
+        bestMatch: 'MAID-DIRECTOR',
+        goodMatch: 'MAID-HOSTESS',
+        clashMatch: 'MAID-KNIGHT'
+      },
+
+      // ================= SENTINEL GROUP (Blue) =================
+      {
+        id: 'MAID-GUARDIAN',
+        code: 'MAID',
+        subCode: 'MAID-GUARDIAN',
+        group: 'sentinel',
+        groupName: '規律・守護グループ (SENTINEL)',
+        name: '慈愛深き守護メイド',
+        catchphrase: '「旦那様、昨日もお夜更かしでしたね？今日はお腹に優しい温かいスープをご用意しました」',
+        maidWords: {
+          m: { letter: 'M', word: 'Merciful', ja: '慈悲', desc: '主人の生活と健康を陰から守る温かな盾' },
+          a: { letter: 'A', word: 'Attentive', ja: '配慮', desc: '些細な日常の乱れも見逃さない細やかな目配り' },
+          i: { letter: 'I', word: 'Invaluable', ja: '重宝', desc: 'いなくては屋敷が回らない実直な存在感' },
+          d: { letter: 'D', word: 'Dutiful', ja: '忠誠', desc: '与えられた職責を愚直に全うする誠実さ' }
+        },
+        axis: { m: 85, a: 85, i: 30, d: 88 },
+        theme: {
+          bg: 'bg-sky-50',
+          border: 'border-sky-200',
+          badgeBg: 'bg-sky-100',
+          badgeText: 'text-sky-700',
+          accent: '#3ca0c9'
+        },
+        desc: '主人の健康管理と生活の安定を徹底して支えるお母さん的ポジション。細やかな体調の変化を見逃さず、温かい環境を整えます。',
+        masterRelation: '生活リズムの乱れを細かく心配し、甲斐甲斐しくお世話をします。主人の健やかな生活の最後の防波堤です。',
+        strengths: ['完璧な健康管理・生活サポート', '忠実でブレない継続力', '安心感と家庭的な温もり'],
+        weaknesses: ['心配性すぎて過保護になりがち', '急な方針変更にストレスを感じる'],
+        bestMatch: 'MAID-SCHOLAR',
+        goodMatch: 'MAID-HOSTESS',
+        clashMatch: 'MAID-FIXER'
+      },
+      {
+        id: 'MAID-OPERATOR',
+        code: 'MAID',
+        subCode: 'MAID-OPERATOR',
+        group: 'sentinel',
+        groupName: '規律・守護グループ (SENTINEL)',
+        name: '精密機械の執務メイド',
+        catchphrase: '「起床予定時刻より45秒経過。朝食のサーブ完了まで残り2分10秒です」',
+        maidWords: {
+          m: { letter: 'M', word: 'Meticulous', ja: '綿密', desc: '一分の狂いも許さない完全無欠の正確さ' },
+          a: { letter: 'A', word: 'Accurate', ja: '精密', desc: '秒単位のスケジュールと手順の遵守' },
+          i: { letter: 'I', word: 'Impeccable', ja: '完璧', desc: '磨き抜かれた完璧な家事効率' },
+          d: { letter: 'D', word: 'Disciplined', ja: '厳格', desc: '私情を排しルーチンを完遂する職人魂' }
+        },
+        axis: { m: 75, a: 20, i: 35, d: 95 },
+        theme: {
+          bg: 'bg-sky-50',
+          border: 'border-sky-200',
+          badgeBg: 'bg-sky-100',
+          badgeText: 'text-sky-700',
+          accent: '#3ca0c9'
+        },
+        desc: '感情を挟まず、秒単位の正確さと超人的な家事能率で整える完璧主義の職人。屋敷の設備やルーチンが常に寸分の狂いもなく稼働します。',
+        masterRelation: '言葉少なくただ完璧な仕事で仕えます。無駄口を叩かず、主人の要望を最短距離で具現化します。',
+        strengths: ['圧倒的な家事効率と時間厳守', '規則正しいルーチンの維持', '精密な整理整頓と設備管理'],
+        weaknesses: ['主人の急な予定変更にストレスを感じる', '情緒的な慰めや雑談がぎこちない'],
+        bestMatch: 'MAID-MENTOR',
+        goodMatch: 'MAID-STRATEGIST',
+        clashMatch: 'MAID-CHARMER'
+      },
+      {
+        id: 'MAID-DIRECTOR',
+        code: 'MAID',
+        subCode: 'MAID-DIRECTOR',
+        group: 'sentinel',
+        groupName: '規律・守護グループ (SENTINEL)',
+        name: '鉄のチーフマネージャー',
+        catchphrase: '「旦那様、身だしなみを正してください。本日の会合は屋敷の威信に関わります」',
+        maidWords: {
+          m: { letter: 'M', word: 'Managerial', ja: '統御', desc: '現場の全作業と持ち場を管理する執行力' },
+          a: { letter: 'A', word: 'Administrative', ja: '行政', desc: '屋敷の規律と伝統を護持するガバナンス' },
+          i: { letter: 'I', word: 'Imperative', ja: '号令', desc: '毅然とした指示で現場を動かす指揮力' },
+          d: { letter: 'D', word: 'Decisive', ja: '決断', desc: '秩序を乱す者を決して許さない毅然たる判断' }
+        },
+        axis: { m: 35, a: 25, i: 40, d: 92 },
+        theme: {
+          bg: 'bg-sky-50',
+          border: 'border-sky-200',
+          badgeBg: 'bg-sky-100',
+          badgeText: 'text-sky-700',
+          accent: '#3ca0c9'
+        },
+        desc: '全使用人の作業と持ち場をマニュアル通り徹底統制する規律の鬼。主人に対しても生活態度の乱れがあれば容赦なく指導する現場監督です。',
+        masterRelation: '厳しい教師のように主人の背筋を伸ばさせます。屋敷の格式と家名を傷つける行為は絶対に許しません。',
+        strengths: ['強力な組織規律の維持', 'マニュアル管理と現場統率', '伝統と格式の徹底遵守'],
+        weaknesses: ['融通が利かず頑固になりやすい', '厳しすぎて周囲から怖がられる'],
+        bestMatch: 'MAID-DIPLOMAT',
+        goodMatch: 'MAID-OPERATOR',
+        clashMatch: 'MAID-SCHOLAR'
+      },
+      {
+        id: 'MAID-HOSTESS',
+        code: 'MAID',
+        subCode: 'MAID-HOSTESS',
+        group: 'sentinel',
+        groupName: '規律・守護グループ (SENTINEL)',
+        name: 'おもてなし看板メイド',
+        catchphrase: '「本日のお客様のお好みはすべて控え済みです。完璧なティーパーティーをお届けします」',
+        maidWords: {
+          m: { letter: 'M', word: 'Mannerly', ja: '礼儀', desc: '社交界でも賞賛される洗練された作法' },
+          a: { letter: 'A', word: 'Accommodating', ja: '親身', desc: '来客の要望に先回りして応える歓待力' },
+          i: { letter: 'I', word: 'Inviting', ja: '魅了', desc: '屋敷の名声を高める華やかなホスピタリティ' },
+          d: { letter: 'D', word: 'Dependable', ja: '信頼', desc: '誰もが安心して頼りにする現場の看板' }
+        },
+        axis: { m: 40, a: 75, i: 35, d: 88 },
+        theme: {
+          bg: 'bg-sky-50',
+          border: 'border-sky-200',
+          badgeBg: 'bg-sky-100',
+          badgeText: 'text-sky-700',
+          accent: '#3ca0c9'
+        },
+        desc: '優雅な給仕と完璧な接客で来客を魅了し、屋敷の名声を高める現場エース。礼儀作法とホスピタリティが完璧に調和しています。',
+        masterRelation: '社交の場で主人の誇りとなる存在。主人が対外的に恥をかかないよう細部まで優雅にサポートします。',
+        strengths: ['洗練された接客と給仕作法', '来客の満足度を高める気配り', '礼儀正しく好感度の高いマナー'],
+        weaknesses: ['他人の目を気にしすぎて疲労する', '不作法な振る舞いに強い嫌悪感を抱く'],
+        bestMatch: 'MAID-KNIGHT',
+        goodMatch: 'MAID-GUARDIAN',
+        clashMatch: 'MAID-STRIKER'
+      },
+
+      // ================= EXPLORER GROUP (Amber) =================
+      {
+        id: 'MAID-DEVOTION',
+        code: 'MAID',
+        subCode: 'MAID-DEVOTION',
+        group: 'explorer',
+        groupName: '現場・即応グループ (EXPLORER)',
+        name: '健気な小鳥メイド',
+        catchphrase: '「旦那様のお役に立てるなら……私、どんな失敗にもめげずに頑張りますっ！」',
+        maidWords: {
+          m: { letter: 'M', word: 'Modest', ja: '謙虚', desc: '出しゃばらず主人の足元に寄り添う慎ましさ' },
+          a: { letter: 'A', word: 'Affectionate', ja: '健気', desc: '一言の感謝でどこまでも頑張れる純粋な愛情' },
+          i: { letter: 'I', word: 'Innocent', ja: '無垢', desc: '周囲の心を和ませる飾らない素直さ' },
+          d: { letter: 'D', word: 'Dedicated', ja: '献身', desc: '失敗してもめげずに尽くし続ける誠意' }
+        },
+        axis: { m: 80, a: 90, i: 45, d: 45 },
+        theme: {
+          bg: 'bg-amber-50',
+          border: 'border-amber-200',
+          badgeBg: 'bg-amber-100',
+          badgeText: 'text-amber-700',
+          accent: '#e59324'
+        },
+        desc: '純真無垢な心で主人を慕う妹分メイド。たまにドジを踏んで慌てふためくこともありますが、そのひたむきな愛情が屋敷を明るく照らします。',
+        masterRelation: '主人からの「ありがとう」の一言で何時間でも頑張れる純粋さ。主人の心の傷を温かく癒やします。',
+        strengths: ['純粋無垢な献身と癒やしの笑顔', '主人の感情に寄り添う温もり', '周囲をほっこりさせる愛され力'],
+        weaknesses: ['プレッシャーに弱く慌てやすい', '叱られると過剰に落ち込む'],
+        bestMatch: 'MAID-EMPRESS',
+        goodMatch: 'MAID-CHEER',
+        clashMatch: 'MAID-OPERATOR'
+      },
+      {
+        id: 'MAID-KNIGHT',
+        code: 'MAID',
+        subCode: 'MAID-KNIGHT',
+        group: 'explorer',
+        groupName: '現場・即応グループ (EXPLORER)',
+        name: '寡黙なる護衛メイド',
+        catchphrase: '「旦那様、私から離れないで。……脅威は3秒で排除する」',
+        maidWords: {
+          m: { letter: 'M', word: 'Martial', ja: '武勇', desc: '危機を察知し瞬時に排除する身体能力' },
+          a: { letter: 'A', word: 'Alert', ja: '警戒', desc: '四方に気を配り主人の背後を守る鋭い警戒網' },
+          i: { letter: 'I', word: 'Instrumental', ja: '実力', desc: '道具や武器を体の一部のように扱う職人技' },
+          d: { letter: 'D', word: 'Defensive', ja: '防壁', desc: '身を挺して主人を守り抜く鉄壁の忠義' }
+        },
+        axis: { m: 80, a: 30, i: 30, d: 40 },
+        theme: {
+          bg: 'bg-amber-50',
+          border: 'border-amber-200',
+          badgeBg: 'bg-amber-100',
+          badgeText: 'text-amber-700',
+          accent: '#e59324'
+        },
+        desc: '普段は無口に屋敷の修繕や刃物の手入れを行い、いざ危機が迫ると主人の前に立ちはだかる用心棒。卓越した身体能力で障害を排除します。',
+        masterRelation: '言葉ではなく背中で語るボディーガード。主人の安全を自分の命よりも優先して守り抜きます。',
+        strengths: ['高い危機察知能力と身体能力', '道具の扱いに長けた職人気質', 'どんなプレッシャーにも動じない胆力'],
+        weaknesses: ['言葉足らずで気持ちが伝わりにくい', '平穏な日常の世間話がぎこちない'],
+        bestMatch: 'MAID-SOVEREIGN',
+        goodMatch: 'MAID-STRIKER',
+        clashMatch: 'MAID-DIPLOMAT'
+      },
+      {
+        id: 'MAID-CHEER',
+        code: 'MAID',
+        subCode: 'MAID-CHEER',
+        group: 'explorer',
+        groupName: '現場・即応グループ (EXPLORER)',
+        name: '宴のムードメーカーメイド',
+        catchphrase: '「旦那様ー！焼きたてのスコーンが上手に焼けましたよ！一緒に食べましょー！」',
+        maidWords: {
+          m: { letter: 'M', word: 'Mirthful', ja: '陽気', desc: '屋敷の重苦しい空気を一瞬で晴らす笑顔' },
+          a: { letter: 'A', word: 'Animated', ja: '活気', desc: '軽快なフットワークと尽きないバイタリティ' },
+          i: { letter: 'I', word: 'Impromptu', ja: '即興', desc: '退屈な日常を非日常の楽しみに変える機転' },
+          d: { letter: 'D', word: 'Dynamic', ja: '躍動', desc: '周囲全員を巻き込んで盛り上げる明るさ' }
+        },
+        axis: { m: 45, a: 85, i: 40, d: 35 },
+        theme: {
+          bg: 'bg-amber-50',
+          border: 'border-amber-200',
+          badgeBg: 'bg-amber-100',
+          badgeText: 'text-amber-700',
+          accent: '#e59324'
+        },
+        desc: '社交場や屋敷全体を天性の明るさと軽快なフットワークで盛り上げる愛嬌者。退屈で堅苦しい空気を一気に華やかに塗り替えます。',
+        masterRelation: '落ち込んでいる主人を笑顔にすることが生きがい。主人の手を引っ張って楽しい出来事へと誘います。',
+        strengths: ['場を明るくする圧倒的な陽のエネルギー', '人を惹きつける親しみやすさ', '退屈を打破する即興力'],
+        weaknesses: ['格式高い儀礼ではしゃぎすぎる', '細かいスケジュール管理がルーズ'],
+        bestMatch: 'MAID-STRATEGIST',
+        goodMatch: 'MAID-DEVOTION',
+        clashMatch: 'MAID-DIRECTOR'
+      },
+      {
+        id: 'MAID-STRIKER',
+        code: 'MAID',
+        subCode: 'MAID-STRIKER',
+        group: 'explorer',
+        groupName: '現場・即応グループ (EXPLORER)',
+        name: '最前線のアクションメイド',
+        catchphrase: '「旦那様はそこで見てて！この厄介事は私のモップ一本で解決してやるから！」',
+        maidWords: {
+          m: { letter: 'M', word: 'Militant', ja: '突貫', desc: '困難や厄介事に真っ向から突撃する突破力' },
+          a: { letter: 'A', word: 'Action-driven', ja: '行動', desc: '考えるより先に体が動く最前線の実行力' },
+          i: { letter: 'I', word: 'Instinctive', ja: '本能', desc: '修羅場を直感と反射神経で乗り切る胆力' },
+          d: { letter: 'D', word: 'Daring', ja: '果敢', desc: 'どんな難敵やトラブルにも怯まない豪快さ' }
+        },
+        axis: { m: 35, a: 35, i: 30, d: 30 },
+        theme: {
+          bg: 'bg-amber-50',
+          border: 'border-amber-200',
+          badgeBg: 'bg-amber-100',
+          badgeText: 'text-amber-700',
+          accent: '#e59324'
+        },
+        desc: '考えるより先に体が動く現場突貫型。突発的なトラブルや厄介事が押し寄せた瞬間、最前線に突っ込んでねじ伏せる屋敷最強のアタッカーです。',
+        masterRelation: '主人のピンチをダイナミックに救うヒーロー的メイド。お行儀はお世辞にも良いとは言えませんが頼もしさは天下一品。',
+        strengths: ['瞬発力と圧倒的な行動スピード', '物理的トラブルの即座の制圧', '物怖じしない豪快なバイタリティ'],
+        weaknesses: ['繊細な作業や事務処理で雑になりがち', 'じっとしているデスクワークが苦手'],
+        bestMatch: 'MAID-SOVEREIGN',
+        goodMatch: 'MAID-KNIGHT',
+        clashMatch: 'MAID-HOSTESS'
+      }
+    ];
+
+    /* =========================================================================
+       30 QUESTIONS: Daily, Life, Work & MBTI-Style Psychological Questions
+       Direction: 1 (Agree -> First Pole), -1 (Agree -> Second Pole)
+       M: Master(+) vs Social(-)
+       A: Affection(+) vs Logic(-)
+       I: Insight(+) vs Physical(-)
+       D: Discipline(+) vs Flexibility(-)
+       ========================================================================= */
+    const QUESTIONS = [
+      // 1-8: M vs S (8 questions)
+      {
+        id: 1,
+        axis: 'M',
+        text: '初対面の人ばかりが集まるパーティーでも、気後れせず多くの人と積極的に打ち解けられる。',
+        direction: -1
+      },
+      {
+        id: 2,
+        axis: 'M',
+        text: '広く浅い人間関係よりも、信頼できる特定の一人や少人数と深く向き合う方を心地よく感じる。',
+        direction: 1
+      },
+      {
+        id: 3,
+        axis: 'M',
+        text: 'チームや組織全体の雰囲気や人間関係のバランスに、自然と気を配っていることが多い。',
+        direction: -1
+      },
+      {
+        id: 4,
+        axis: 'M',
+        text: '疲れた時は、誰かと賑やかに過ごすよりも、一人の静かな時間や空間で過ごすことで回復する。',
+        direction: 1
+      },
+      {
+        id: 5,
+        axis: 'M',
+        text: '周囲全体をまとめてリードするよりも、信頼するリーダーやパートナーを陰から支える右腕の役回りが落ち着く。',
+        direction: 1
+      },
+      {
+        id: 6,
+        axis: 'M',
+        text: '週末や休日は、家でじっくり過ごすよりも、外に出て人と会ったり活発に交流したい。',
+        direction: -1
+      },
+      {
+        id: 7,
+        axis: 'M',
+        text: '組織やコミュニティの評判よりも、特定の大切な相手に対する信頼や約束を最優先したい。',
+        direction: 1
+      },
+      {
+        id: 8,
+        axis: 'M',
+        text: '輪に入れず困っている人を見かけたら、直接の関わりがなくても積極的に声をかけて輪に引き入れたい。',
+        direction: -1
+      },
+
+      // 9-16: A vs L (8 questions)
+      {
+        id: 9,
+        axis: 'A',
+        text: '友人の悩み相談に乗る時は、具体的な正論や解決策よりも、まずその感情に寄り添い共感したい。',
+        direction: 1
+      },
+      {
+        id: 10,
+        axis: 'A',
+        text: '議論や話し合いの場では、相手の感情への配慮よりも、客観的な正しさや論理性を最優先すべきだ。',
+        direction: -1
+      },
+      {
+        id: 11,
+        axis: 'A',
+        text: '映画や小説、他人の体験談に深く感情移入して、思わず胸が熱くなったり涙ぐむことが多い。',
+        direction: 1
+      },
+      {
+        id: 12,
+        axis: 'A',
+        text: '重要な決断を下す際、直感や情熱よりも、客観的なデータや損得計算などの合理的根拠を重んじる。',
+        direction: -1
+      },
+      {
+        id: 13,
+        axis: 'A',
+        text: 'たとえ正しい指摘であっても、相手の自尊心を傷つける恐れがあるなら、言い方を工夫するか控えるべきだ。',
+        direction: 1
+      },
+      {
+        id: 14,
+        axis: 'A',
+        text: '感情に訴えかける熱い言葉よりも、数字や筋道の通った構造的な説明の方に強い説得力を感じる。',
+        direction: -1
+      },
+      {
+        id: 15,
+        axis: 'A',
+        text: '仕事やプロジェクトにおいて、業務効率の最大化よりもチームの和やかさや人間関係の調和を大切にしたい。',
+        direction: 1
+      },
+      {
+        id: 16,
+        axis: 'A',
+        text: '問題が発生した時、「誰がどう傷ついたか」よりも「システムのどこに構造的欠陥があったか」をまず検証したい。',
+        direction: -1
+      },
+
+      // 17-23: I vs P (7 questions)
+      {
+        id: 17,
+        axis: 'I',
+        text: '物事の表面的な事実よりも、その背景にある隠された意味や将来の可能性について思索するのが好きだ。',
+        direction: 1
+      },
+      {
+        id: 18,
+        axis: 'I',
+        text: '抽象的な理論や未来の構想よりも、現実にいま目の前にある具体的な事実や体験を重視する。',
+        direction: -1
+      },
+      {
+        id: 19,
+        axis: 'I',
+        text: '他人が口に出さない本音や、場の微妙な空気の変化を直感的に察知することが得意だ。',
+        direction: 1
+      },
+      {
+        id: 20,
+        axis: 'I',
+        text: '頭の中で戦略や計画を巡らせるよりも、実際に手を動かして物理的な作業をこなすことにやりがいを感じる。',
+        direction: -1
+      },
+      {
+        id: 21,
+        axis: 'I',
+        text: '実績のある確実なやり方を繰り返すより、新しいアイデアや型破りなアプローチを実験してみたい。',
+        direction: 1
+      },
+      {
+        id: 22,
+        axis: 'I',
+        text: '身の回りの変化や小さなミス、物の配置のズレなど、五感で捉えられる細部にすぐ気づく方だ。',
+        direction: -1
+      },
+      {
+        id: 23,
+        axis: 'I',
+        text: '「もし世界がこうだったら」という哲学的な問いや、実生活には直結しない空想の議論を楽しむのが好きだ。',
+        direction: 1
+      },
+
+      // 24-30: D vs F (7 questions)
+      {
+        id: 24,
+        axis: 'D',
+        text: '旅行や休日の計画は、事前にしっかりとスケジュールや行先を決めてから行動したい。',
+        direction: 1
+      },
+      {
+        id: 25,
+        axis: 'D',
+        text: '予定が直前で急に変更になったりハプニングが起きても、その場の流れに合わせて柔軟に楽しめる。',
+        direction: -1
+      },
+      {
+        id: 26,
+        axis: 'D',
+        text: '締め切りギリギリになる前に、余裕を持って早めにタスクを完了させておかないと落ち着かない。',
+        direction: 1
+      },
+      {
+        id: 27,
+        axis: 'D',
+        text: '事前に時間をかけて準備するより、締め切り直前のプレッシャーがあった方が高い集中力とひらめきを発揮できる。',
+        direction: -1
+      },
+      {
+        id: 28,
+        axis: 'D',
+        text: '部屋やデスク周りの物は決まった定位置があり、秩序正しく整理整頓されていないと気が散る。',
+        direction: 1
+      },
+      {
+        id: 29,
+        axis: 'D',
+        text: '厳密な規則やマニュアルに縛られるよりも、状況に応じてルールを柔軟に変えられる自由さを好む。',
+        direction: -1
+      },
+      {
+        id: 30,
+        axis: 'D',
+        text: 'チェックリストを作成し、順序通りにタスクを一つずつ消していくプロセスに心地よさを感じる。',
+        direction: 1
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+    let userAnswers = {};
+    let calculatedResult = null;
+    let isQuizCompleted = false;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderEncyclopedia();
+    });
+
+    function showView(viewId) {
+      document.getElementById('view-home').classList.add('hidden');
+      document.getElementById('view-quiz').classList.add('hidden');
+      document.getElementById('view-loading').classList.add('hidden');
+      document.getElementById('view-result').classList.add('hidden');
+      document.getElementById('view-encyclopedia').classList.add('hidden');
+
+      const target = document.getElementById(`view-${viewId}`);
+      if (target) {
+        target.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function handleNavEncyclopedia() {
+      if (!isQuizCompleted) {
+        showToast('診断を完了すると、全16タイプの図鑑が解放されます');
+      } else {
+        showView('encyclopedia');
+      }
+    }
+
+    function backToResult() {
+      if (calculatedResult) {
+        showView('result');
+      } else {
+        showView('home');
+      }
+    }
+
+    /* =========================================================================
+       QUIZ FLOW
+       ========================================================================= */
+    function startQuiz() {
+      currentQuestionIndex = 0;
+      userAnswers = {};
+      showView('quiz');
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = QUESTIONS[currentQuestionIndex];
+      const total = QUESTIONS.length;
+      const progress = Math.round(((currentQuestionIndex + 1) / total) * 100);
+
+      document.getElementById('quiz-progress-label').textContent = `質問 ${currentQuestionIndex + 1} / ${total}`;
+      document.getElementById('quiz-progress-percent').textContent = `${progress}%`;
+      document.getElementById('quiz-progress-bar').style.width = `${progress}%`;
+
+      document.getElementById('question-text').textContent = q.text;
+
+      // Animate Card
+      const card = document.getElementById('question-card');
+      card.classList.remove('question-card-enter');
+      void card.offsetWidth;
+      card.classList.add('question-card-enter');
+
+      // Update button selection state
+      const prevAnswer = userAnswers[q.id];
+      const buttons = document.querySelectorAll('.scale-btn');
+      buttons.forEach(btn => {
+        const score = parseInt(btn.getAttribute('data-score'), 10);
+        if (prevAnswer !== undefined && prevAnswer === score) {
+          btn.classList.add('ring-4', 'ring-purple-400', 'scale-115');
+        } else {
+          btn.classList.remove('ring-4', 'ring-purple-400', 'scale-115');
+        }
+      });
+
+      document.getElementById('btn-quiz-prev').disabled = (currentQuestionIndex === 0);
+    }
+
+    function recordAnswer(score) {
+      const q = QUESTIONS[currentQuestionIndex];
+      userAnswers[q.id] = score;
+
+      if (currentQuestionIndex < QUESTIONS.length - 1) {
+        currentQuestionIndex++;
+        renderQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function previousQuestion() {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderQuestion();
+      }
+    }
+
+    function finishQuiz() {
+      showView('loading');
+
+      const texts = [
+        '30の回答データから4軸のパラメータを照合しています...',
+        '深層心理の奉仕傾向と行動様式を計算中...',
+        'あなたに宿るMAIDの魂を特定しています...'
+      ];
+      let tIdx = 0;
+      const interval = setInterval(() => {
+        tIdx = (tIdx + 1) % texts.length;
+        const sub = document.getElementById('loading-subtext');
+        if (sub) sub.textContent = texts[tIdx];
+      }, 500);
+
+      setTimeout(() => {
+        clearInterval(interval);
+        calculateFinalScores();
+        
+        // Unlock Encyclopedia
+        isQuizCompleted = true;
+        document.getElementById('nav-lock-svg').classList.add('hidden');
+        document.getElementById('nav-unlocked-svg').classList.remove('hidden');
+        
+        showView('result');
+      }, 1600);
+    }
+
+    /* =========================================================================
+       CALCULATE SCORES & DETERMINE TYPE
+       ========================================================================= */
+    function calculateFinalScores() {
+      let rawM = 0, maxM = 0;
+      let rawA = 0, maxA = 0;
+      let rawI = 0, maxI = 0;
+      let rawD = 0, maxD = 0;
+
+      QUESTIONS.forEach(q => {
+        const val = userAnswers[q.id] !== undefined ? userAnswers[q.id] : 0;
+        const weighted = val * q.direction;
+
+        if (q.axis === 'M') {
+          rawM += weighted;
+          maxM += 3;
+        } else if (q.axis === 'A') {
+          rawA += weighted;
+          maxA += 3;
+        } else if (q.axis === 'I') {
+          rawI += weighted;
+          maxI += 3;
+        } else if (q.axis === 'D') {
+          rawD += weighted;
+          maxD += 3;
+        }
+      });
+
+      // Percentage (0 - 100)
+      const pctM = Math.min(96, Math.max(12, Math.round(((rawM + maxM) / (maxM * 2)) * 100)));
+      const pctA = Math.min(96, Math.max(12, Math.round(((rawA + maxA) / (maxA * 2)) * 100)));
+      const pctI = Math.min(96, Math.max(12, Math.round(((rawI + maxI) / (maxI * 2)) * 100)));
+      const pctD = Math.min(96, Math.max(12, Math.round(((rawD + maxD) / (maxD * 2)) * 100)));
+
+      // Best match by nearest 4D Euclidean distance
+      let bestMatch = MAID_DATABASE[0];
+      let minDistance = Infinity;
+
+      MAID_DATABASE.forEach(item => {
+        const dist = Math.abs(item.axis.m - pctM) * 1.0 +
+                     Math.abs(item.axis.a - pctA) * 1.0 +
+                     Math.abs(item.axis.i - pctI) * 1.0 +
+                     Math.abs(item.axis.d - pctD) * 1.0;
+        if (dist < minDistance) {
+          minDistance = dist;
+          bestMatch = item;
+        }
+      });
+
+      // Calculate the specific score for this type's 4 MAID letters
+      // If the type is aligned towards M (>50), score is pctM. If aligned towards S (<50), score is 100 - pctM
+      const scoreM = (bestMatch.axis.m >= 50) ? pctM : (100 - pctM);
+      const scoreA = (bestMatch.axis.a >= 50) ? pctA : (100 - pctA);
+      const scoreI = (bestMatch.axis.i >= 50) ? pctI : (100 - pctI);
+      const scoreD = (bestMatch.axis.d >= 50) ? pctD : (100 - pctD);
+
+      calculatedResult = {
+        item: bestMatch,
+        scores: {
+          m: Math.min(95, Math.max(45, scoreM)),
+          a: Math.min(95, Math.max(45, scoreA)),
+          i: Math.min(95, Math.max(45, scoreI)),
+          d: Math.min(95, Math.max(45, scoreD))
+        }
+      };
+
+      displayResult(calculatedResult);
+    }
+
+    function displayResult(res) {
+      const maid = res.item;
+      const s = res.scores;
+      const mw = maid.maidWords;
+
+      // Group badge & Card Theme
+      const badge = document.getElementById('result-group-badge');
+      badge.textContent = maid.groupName;
+      badge.className = `inline-block text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full mb-4 ${maid.theme.badgeBg} ${maid.theme.badgeText}`;
+
+      const banner = document.getElementById('result-card-banner');
+      banner.className = `rounded-3xl border p-8 sm:p-12 text-center relative overflow-hidden shadow-xs transition ${maid.theme.bg} ${maid.theme.border}`;
+
+      // Titles & Catchphrase (ALL CAPS MAID IS ALWAYS FIXED)
+      document.getElementById('result-title').textContent = `${maid.name} (${maid.subCode})`;
+      document.getElementById('result-catchphrase').textContent = maid.catchphrase;
+
+      // Avatar
+      document.getElementById('result-avatar').innerHTML = getUniqueMaidAvatarSvg(maid.id);
+
+      // Render 4 MAID Core Cards
+      const coreGrid = document.getElementById('result-maid-core-grid');
+      coreGrid.innerHTML = `
+        <!-- [M] Card -->
+        <div class="p-4 rounded-2xl bg-purple-50/70 border border-purple-200/80 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xs font-black text-purple-700 bg-white px-2 py-0.5 rounded shadow-xs">M</span>
+              <span class="text-[11px] font-bold text-purple-600">${mw.m.ja}</span>
+            </div>
+            <div class="font-extrabold text-slate-800 text-sm tracking-tight mb-1">${mw.m.word}</div>
+            <p class="text-[11px] text-slate-500 leading-relaxed">${mw.m.desc}</p>
+          </div>
+        </div>
+
+        <!-- [A] Card -->
+        <div class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xs font-black text-emerald-700 bg-white px-2 py-0.5 rounded shadow-xs">A</span>
+              <span class="text-[11px] font-bold text-emerald-600">${mw.a.ja}</span>
+            </div>
+            <div class="font-extrabold text-slate-800 text-sm tracking-tight mb-1">${mw.a.word}</div>
+            <p class="text-[11px] text-slate-500 leading-relaxed">${mw.a.desc}</p>
+          </div>
+        </div>
+
+        <!-- [I] Card -->
+        <div class="p-4 rounded-2xl bg-sky-50/70 border border-sky-200/80 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xs font-black text-sky-700 bg-white px-2 py-0.5 rounded shadow-xs">I</span>
+              <span class="text-[11px] font-bold text-sky-600">${mw.i.ja}</span>
+            </div>
+            <div class="font-extrabold text-slate-800 text-sm tracking-tight mb-1">${mw.i.word}</div>
+            <p class="text-[11px] text-slate-500 leading-relaxed">${mw.i.desc}</p>
+          </div>
+        </div>
+
+        <!-- [D] Card -->
+        <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-xs font-black text-amber-700 bg-white px-2 py-0.5 rounded shadow-xs">D</span>
+              <span class="text-[11px] font-bold text-amber-600">${mw.d.ja}</span>
+            </div>
+            <div class="font-extrabold text-slate-800 text-sm tracking-tight mb-1">${mw.d.word}</div>
+            <p class="text-[11px] text-slate-500 leading-relaxed">${mw.d.desc}</p>
+          </div>
+        </div>
+      `;
+
+      // Render 4 MAID Parameter Bars
+      const barsContainer = document.getElementById('result-maid-bars');
+      barsContainer.innerHTML = `
+        <!-- Bar M -->
+        <div>
+          <div class="flex justify-between text-xs font-bold text-slate-700 mb-1.5">
+            <span class="flex items-center gap-1.5">
+              <span class="px-1.5 py-0.5 rounded bg-purple-100 text-purple-700 text-[10px] font-black">M</span>
+              <span>${mw.m.word} [${mw.m.ja}]</span>
+            </span>
+            <span class="text-purple-700 font-extrabold">${s.m}%</span>
+          </div>
+          <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
+            <div class="bg-purple-600 h-full transition-all duration-700 rounded-full" style="width: ${s.m}%;"></div>
+          </div>
+        </div>
+
+        <!-- Bar A -->
+        <div>
+          <div class="flex justify-between text-xs font-bold text-slate-700 mb-1.5">
+            <span class="flex items-center gap-1.5">
+              <span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 text-[10px] font-black">A</span>
+              <span>${mw.a.word} [${mw.a.ja}]</span>
+            </span>
+            <span class="text-emerald-700 font-extrabold">${s.a}%</span>
+          </div>
+          <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
+            <div class="bg-emerald-500 h-full transition-all duration-700 rounded-full" style="width: ${s.a}%;"></div>
+          </div>
+        </div>
+
+        <!-- Bar I -->
+        <div>
+          <div class="flex justify-between text-xs font-bold text-slate-700 mb-1.5">
+            <span class="flex items-center gap-1.5">
+              <span class="px-1.5 py-0.5 rounded bg-sky-100 text-sky-700 text-[10px] font-black">I</span>
+              <span>${mw.i.word} [${mw.i.ja}]</span>
+            </span>
+            <span class="text-sky-700 font-extrabold">${s.i}%</span>
+          </div>
+          <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
+            <div class="bg-sky-500 h-full transition-all duration-700 rounded-full" style="width: ${s.i}%;"></div>
+          </div>
+        </div>
+
+        <!-- Bar D -->
+        <div>
+          <div class="flex justify-between text-xs font-bold text-slate-700 mb-1.5">
+            <span class="flex items-center gap-1.5">
+              <span class="px-1.5 py-0.5 rounded bg-amber-100 text-amber-700 text-[10px] font-black">D</span>
+              <span>${mw.d.word} [${mw.d.ja}]</span>
+            </span>
+            <span class="text-amber-700 font-extrabold">${s.d}%</span>
+          </div>
+          <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden">
+            <div class="bg-amber-500 h-full transition-all duration-700 rounded-full" style="width: ${s.d}%;"></div>
+          </div>
+        </div>
+      `;
+
+      // Descriptions
+      document.getElementById('result-description').textContent = maid.desc;
+      document.getElementById('result-master-relation').textContent = maid.masterRelation;
+
+      // Strengths & Weaknesses
+      const sUl = document.getElementById('result-strengths');
+      sUl.innerHTML = maid.strengths.map(st => `<li class="flex items-start gap-2"><span class="text-emerald-500 font-bold">•</span><span>${st}</span></li>`).join('');
+
+      const wUl = document.getElementById('result-weaknesses');
+      wUl.innerHTML = maid.weaknesses.map(wk => `<li class="flex items-start gap-2"><span class="text-rose-500 font-bold">•</span><span>${wk}</span></li>`).join('');
+
+      // Compatibility Cards
+      renderCompatibilityCards(maid);
+    }
+
+    function renderCompatibilityCards(maid) {
+      const container = document.getElementById('result-compatibility-cards');
+      if (!container) return;
+
+      const best = MAID_DATABASE.find(m => m.id === maid.bestMatch) || MAID_DATABASE[0];
+      const good = MAID_DATABASE.find(m => m.id === maid.goodMatch) || MAID_DATABASE[1];
+      const clash = MAID_DATABASE.find(m => m.id === maid.clashMatch) || MAID_DATABASE[2];
+
+      container.innerHTML = `
+        <!-- Best Partner -->
+        <div onclick="openTypeModal('${best.id}')" class="cursor-pointer bg-emerald-50/50 border border-emerald-200/80 rounded-2xl p-4 hover:shadow-sm transition">
+          <div class="text-[11px] font-extrabold text-emerald-700 uppercase tracking-wider mb-1">
+            BEST PARTNER
+          </div>
+          <div class="text-xs font-black text-slate-800 bg-white/80 px-2 py-0.5 rounded inline-block mb-1">MAID</div>
+          <h5 class="font-bold text-slate-800 text-sm mb-1">${best.name}</h5>
+          <p class="text-[11px] text-slate-500 line-clamp-2">${best.desc}</p>
+        </div>
+
+        <!-- Good Complement -->
+        <div onclick="openTypeModal('${good.id}')" class="cursor-pointer bg-sky-50/50 border border-sky-200/80 rounded-2xl p-4 hover:shadow-sm transition">
+          <div class="text-[11px] font-extrabold text-sky-700 uppercase tracking-wider mb-1">
+            SYNERGY
+          </div>
+          <div class="text-xs font-black text-slate-800 bg-white/80 px-2 py-0.5 rounded inline-block mb-1">MAID</div>
+          <h5 class="font-bold text-slate-800 text-sm mb-1">${good.name}</h5>
+          <p class="text-[11px] text-slate-500 line-clamp-2">${good.desc}</p>
+        </div>
+
+        <!-- Clash / Challenging -->
+        <div onclick="openTypeModal('${clash.id}')" class="cursor-pointer bg-amber-50/50 border border-amber-200/80 rounded-2xl p-4 hover:shadow-sm transition">
+          <div class="text-[11px] font-extrabold text-amber-700 uppercase tracking-wider mb-1">
+            RIVAL
+          </div>
+          <div class="text-xs font-black text-slate-800 bg-white/80 px-2 py-0.5 rounded inline-block mb-1">MAID</div>
+          <h5 class="font-bold text-slate-800 text-sm mb-1">${clash.name}</h5>
+          <p class="text-[11px] text-slate-500 line-clamp-2">${clash.desc}</p>
+        </div>
+      `;
+    }
+
+    /* =========================================================================
+       16 TYPE ENCYCLOPEDIA (DIRECTORY)
+       ========================================================================= */
+    function renderEncyclopedia() {
+      const container = document.getElementById('encyclopedia-grid');
+      if (!container) return;
+
+      const groups = [
+        { key: 'analyst', name: '参謀・統括グループ (ANALYST)', color: 'border-purple-200 bg-purple-50/50 text-purple-700' },
+        { key: 'diplomat', name: '情緒・共感グループ (DIPLOMAT)', color: 'border-emerald-200 bg-emerald-50/50 text-emerald-700' },
+        { key: 'sentinel', name: '規律・守護グループ (SENTINEL)', color: 'border-sky-200 bg-sky-50/50 text-sky-700' },
+        { key: 'explorer', name: '現場・即応グループ (EXPLORER)', color: 'border-amber-200 bg-amber-50/50 text-amber-700' }
+      ];
+
+      let html = '';
+
+      groups.forEach(grp => {
+        const items = MAID_DATABASE.filter(m => m.group === grp.key);
+        html += `
+          <div>
+            <div class="flex items-center gap-3 mb-6">
+              <span class="w-3.5 h-3.5 rounded-full bg-current ${grp.color}"></span>
+              <h3 class="text-lg font-black text-slate-800">${grp.name}</h3>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              ${items.map(item => {
+                const mw = item.maidWords;
+                return `
+                  <div onclick="openTypeModal('${item.id}')" class="cursor-pointer bg-white rounded-3xl border ${item.theme.border} p-5 hover:shadow-lg hover:-translate-y-1 transition duration-200 flex flex-col justify-between group">
+                    <div>
+                      <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-black tracking-widest text-slate-900 bg-slate-100 px-2.5 py-1 rounded-lg">MAID</span>
+                        <span class="text-[10px] font-bold text-slate-400 truncate max-w-[120px]">
+                          ${mw.m.word[0]}·${mw.a.word[0]}·${mw.i.word[0]}·${mw.d.word[0]}
+                        </span>
+                      </div>
+
+                      <div class="w-20 h-20 mx-auto my-3 rounded-2xl ${item.theme.bg} p-2 flex items-center justify-center group-hover:scale-105 transition">
+                        ${getUniqueMaidAvatarSvg(item.id)}
+                      </div>
+
+                      <h4 class="font-extrabold text-slate-800 text-base mb-1 text-center">${item.name}</h4>
+                      
+                      <!-- 4 MAID Badges Preview -->
+                      <div class="flex items-center justify-center gap-1 my-2 text-[10px] font-bold text-slate-500">
+                        <span class="px-1.5 py-0.5 bg-slate-100 rounded">${mw.m.word}</span>
+                        <span class="px-1.5 py-0.5 bg-slate-100 rounded">${mw.a.word}</span>
+                      </div>
+
+                      <p class="text-xs text-slate-500 line-clamp-3 leading-relaxed mb-4">${item.desc}</p>
+                    </div>
+                    <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold ${item.theme.badgeText}">
+                      <span>詳細データを見る</span>
+                      <span>→</span>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    /* =========================================================================
+       TYPE DETAIL MODAL
+       ========================================================================= */
+    function openTypeModal(id) {
+      const maid = MAID_DATABASE.find(m => m.id === id);
+      if (!maid) return;
+
+      const mw = maid.maidWords;
+      const modalContent = document.getElementById('modal-content');
+      modalContent.innerHTML = `
+        <div class="text-center pt-2">
+          <span class="inline-block text-xs font-extrabold uppercase px-3.5 py-1 rounded-full ${maid.theme.badgeBg} ${maid.theme.badgeText} mb-3">
+            ${maid.groupName}
+          </span>
+          <div class="text-5xl font-black text-slate-900 tracking-tight mb-1">MAID</div>
+          <div class="text-2xl font-black text-slate-800 mb-2">${maid.name}</div>
+          <div class="text-xs font-mono font-bold text-slate-400 mb-4">${maid.subCode}</div>
+          
+          <div class="w-32 h-32 mx-auto mb-4 rounded-3xl ${maid.theme.bg} border ${maid.theme.border} p-3 flex items-center justify-center">
+            ${getUniqueMaidAvatarSvg(maid.id)}
+          </div>
+
+          <p class="text-xs italic font-medium text-slate-600 bg-slate-50 p-3.5 rounded-2xl border border-slate-100 mb-6">
+            ${maid.catchphrase}
+          </p>
+        </div>
+
+        <!-- 4 MAID Words in Modal -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-6">
+          <div class="p-3 bg-purple-50/80 rounded-xl border border-purple-100 text-center">
+            <span class="text-[10px] font-black text-purple-700 bg-white px-1.5 py-0.5 rounded">M</span>
+            <div class="text-xs font-bold text-slate-800 mt-1">${mw.m.word}</div>
+            <div class="text-[10px] text-purple-600 font-semibold">${mw.m.ja}</div>
+          </div>
+          <div class="p-3 bg-emerald-50/80 rounded-xl border border-emerald-100 text-center">
+            <span class="text-[10px] font-black text-emerald-700 bg-white px-1.5 py-0.5 rounded">A</span>
+            <div class="text-xs font-bold text-slate-800 mt-1">${mw.a.word}</div>
+            <div class="text-[10px] text-emerald-600 font-semibold">${mw.a.ja}</div>
+          </div>
+          <div class="p-3 bg-sky-50/80 rounded-xl border border-sky-100 text-center">
+            <span class="text-[10px] font-black text-sky-700 bg-white px-1.5 py-0.5 rounded">I</span>
+            <div class="text-xs font-bold text-slate-800 mt-1">${mw.i.word}</div>
+            <div class="text-[10px] text-sky-600 font-semibold">${mw.i.ja}</div>
+          </div>
+          <div class="p-3 bg-amber-50/80 rounded-xl border border-amber-100 text-center">
+            <span class="text-[10px] font-black text-amber-700 bg-white px-1.5 py-0.5 rounded">D</span>
+            <div class="text-xs font-bold text-slate-800 mt-1">${mw.d.word}</div>
+            <div class="text-[10px] text-amber-600 font-semibold">${mw.d.ja}</div>
+          </div>
+        </div>
+        
+        <div class="space-y-4 text-xs sm:text-sm text-slate-600">
+          <div>
+            <h5 class="font-bold text-slate-800 mb-1 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-purple-600"></span>
+              【メイドの特性と本質】
+            </h5>
+            <p class="leading-relaxed text-slate-600">${maid.desc}</p>
+          </div>
+          <div>
+            <h5 class="font-bold text-slate-800 mb-1 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-indigo-600"></span>
+              【仕える主人との関係性】
+            </h5>
+            <p class="leading-relaxed text-slate-600">${maid.masterRelation}</p>
+          </div>
+          <div class="grid grid-cols-2 gap-3 pt-2">
+            <div class="bg-emerald-50/70 p-3.5 rounded-2xl border border-emerald-200/60">
+              <h6 class="font-bold text-emerald-900 mb-1 text-xs">長所</h6>
+              <ul class="space-y-1 text-[11px] sm:text-xs text-slate-600">
+                ${maid.strengths.map(s => `<li>• ${s}</li>`).join('')}
+              </ul>
+            </div>
+            <div class="bg-rose-50/70 p-3.5 rounded-2xl border border-rose-200/60">
+              <h6 class="font-bold text-rose-900 mb-1 text-xs">注意点</h6>
+              <ul class="space-y-1 text-[11px] sm:text-xs text-slate-600">
+                ${maid.weaknesses.map(w => `<li>• ${w}</li>`).join('')}
+              </ul>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('type-modal').classList.remove('hidden');
+    }
+
+    function closeTypeModal() {
+      document.getElementById('type-modal').classList.add('hidden');
+    }
+
+    /* =========================================================================
+       SHARE & CLIPBOARD
+       ========================================================================= */
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-message').textContent = msg;
+      toast.classList.remove('toast-enter');
+      toast.classList.add('toast-show');
+
+      setTimeout(() => {
+        toast.classList.remove('toast-show');
+        toast.classList.add('toast-enter');
+      }, 2500);
+    }
+
+    function copyResultToClipboard() {
+      if (!calculatedResult) return;
+      const m = calculatedResult.item;
+      const mw = m.maidWords;
+      const text = `【16MAID性格診断】\n私のタイプコードは『MAID (${m.name})』でした！\nMAID: ${mw.m.word} / ${mw.a.word} / ${mw.i.word} / ${mw.d.word}\n「${m.catchphrase}」\n#16MAID診断 #性格診断 #MAID`;
+
+      const tempInput = document.createElement('textarea');
+      tempInput.value = text;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        showToast('診断結果をクリップボードにコピーしました');
+      } catch (err) {
+        showToast('コピーに失敗しました');
+      }
+      document.body.removeChild(tempInput);
+    }
+
+    function shareResult() {
+      if (!calculatedResult) return;
+      const m = calculatedResult.item;
+      const mw = m.maidWords;
+      const text = encodeURIComponent(`【16MAID性格診断】私のタイプコードは『MAID (${m.name})』でした！\nMAID: ${mw.m.word} / ${mw.a.word} / ${mw.i.word} / ${mw.d.word}\n「${m.catchphrase}」\n#16MAID診断 #MAID性格診断`);
+      const url = `https://twitter.com/intent/tweet?text=${text}`;
+      window.open(url, '_blank');
+    }
+
+    /* =========================================================================
+       UNIQUE SVG AVATAR GENERATOR FOR ALL 16 TYPES
+       ========================================================================= */
+    function getUniqueMaidAvatarSvg(typeId) {
+      const baseHead = (hairColor = '#475569', eyeShape = 'normal', blush = true) => {
+        let eyes = `
+          <circle cx="68" cy="74" r="3.5" fill="#1e293b"/>
+          <circle cx="92" cy="74" r="3.5" fill="#1e293b"/>
+        `;
+        if (eyeShape === 'wink') {
+          eyes = `
+            <circle cx="68" cy="74" r="3.5" fill="#1e293b"/>
+            <path d="M88 74Q92 70 96 74" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round"/>
+          `;
+        } else if (eyeShape === 'sharp') {
+          eyes = `
+            <path d="M64 72L72 74" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
+            <path d="M96 72L88 74" stroke="#1e293b" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="68" cy="75" r="2.5" fill="#1e293b"/>
+            <circle cx="92" cy="75" r="2.5" fill="#1e293b"/>
+          `;
+        } else if (eyeShape === 'happy') {
+          eyes = `
+            <path d="M64 74Q68 68 72 74" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M88 74Q92 68 96 74" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round"/>
+          `;
+        }
+
+        const blushEl = blush ? `
+          <circle cx="62" cy="80" r="4.5" fill="#fca5a5" opacity="0.6"/>
+          <circle cx="98" cy="80" r="4.5" fill="#fca5a5" opacity="0.6"/>
+        ` : '';
+
+        return `
+          <!-- Hair Back -->
+          <path d="M48 60C48 40 112 40 112 60V85C112 95 106 102 100 102H60C54 102 48 95 48 85Z" fill="${hairColor}"/>
+          <!-- Face -->
+          <circle cx="80" cy="76" r="30" fill="#fff1eb"/>
+          <!-- Hair Front -->
+          <path d="M52 64C58 52 70 52 80 56C90 52 102 52 108 64C100 60 92 60 80 62C68 60 60 60 52 64Z" fill="${hairColor}"/>
+          ${eyes}
+          ${blushEl}
+          <!-- Smile -->
+          <path d="M76 83Q80 87 84 83" stroke="#64748b" stroke-width="2" stroke-linecap="round"/>
+        `;
+      };
+
+      switch (typeId) {
+        // 1. 冷徹参謀 (MAID-STRATEGIST): Monocle / Glasses, Clipboard
+        case 'MAID-STRATEGIST':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M42 46C42 26 118 26 118 46" fill="#f8fafc" stroke="#8854c0" stroke-width="5"/>
+              ${baseHead('#334155', 'sharp', false)}
+              <circle cx="92" cy="74" r="8" stroke="#8854c0" stroke-width="2.5" fill="none"/>
+              <path d="M100 74L110 82" stroke="#8854c0" stroke-width="1.5"/>
+              <path d="M46 142C46 112 60 106 80 106C100 106 114 112 114 142" fill="#1e1b4b"/>
+              <path d="M66 106L60 142H100L94 106Z" fill="#ffffff"/>
+              <rect x="100" y="108" width="22" height="30" rx="3" fill="#e2e8f0" stroke="#7e47b8" stroke-width="2"/>
+              <line x1="105" y1="116" x2="117" y2="116" stroke="#8854c0" stroke-width="2"/>
+              <line x1="105" y1="122" x2="115" y2="122" stroke="#8854c0" stroke-width="2"/>
+              <line x1="105" y1="128" x2="117" y2="128" stroke="#8854c0" stroke-width="2"/>
+              <circle cx="111" cy="111" r="2" fill="#7e47b8"/>
+            </svg>
+          `;
+
+        // 2. 飄々策士 (MAID-FIXER): Winking, Holding a mysterious key
+        case 'MAID-FIXER':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M45 42C45 25 110 32 115 48" fill="#f8fafc" stroke="#8854c0" stroke-width="4"/>
+              <circle cx="46" cy="42" r="5" fill="#8854c0"/>
+              ${baseHead('#4338ca', 'wink', true)}
+              <path d="M46 142C46 112 60 106 80 106C100 106 114 112 114 142" fill="#312e81"/>
+              <path d="M66 106L60 142H100L94 106Z" fill="#ffffff"/>
+              <circle cx="42" cy="116" r="6" stroke="#fbbf24" stroke-width="2.5" fill="none"/>
+              <path d="M48 116H60M56 116V122M60 116V122" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          `;
+
+        // 3. 女帝メイド (MAID-EMPRESS): Small Crown / Tiara & Royal Fan
+        case 'MAID-EMPRESS':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M65 36L70 42L80 30L90 42L95 36V45H65Z" fill="#fbbf24" stroke="#d97706" stroke-width="2"/>
+              <path d="M40 46C40 28 120 28 120 46" stroke="#8854c0" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 8"/>
+              ${baseHead('#1e1b4b', 'sharp', false)}
+              <path d="M44 142C44 110 60 104 80 104C100 104 116 110 116 142" fill="#1e1b4b"/>
+              <path d="M68 104L62 142H98L92 104Z" fill="#ffffff"/>
+              <path d="M96 115C108 100 126 102 130 118L108 132Z" fill="#8854c0" stroke="#fbbf24" stroke-width="2"/>
+              <line x1="108" y1="132" x2="114" y2="108" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="108" y1="132" x2="124" y2="112" stroke="#ffffff" stroke-width="1.5"/>
+            </svg>
+          `;
+
+        // 4. 大書庫探究 (MAID-SCHOLAR): Big Round Glasses & Ancient Grimoire / Quill
+        case 'MAID-SCHOLAR':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M44 48C44 30 116 30 116 48" fill="#f8fafc" stroke="#8854c0" stroke-width="4"/>
+              ${baseHead('#581c87', 'normal', true)}
+              <circle cx="68" cy="74" r="7" stroke="#7e47b8" stroke-width="2" fill="none"/>
+              <circle cx="92" cy="74" r="7" stroke="#7e47b8" stroke-width="2" fill="none"/>
+              <line x1="75" y1="74" x2="85" y2="74" stroke="#7e47b8" stroke-width="2"/>
+              <path d="M46 142C46 112 60 106 80 106C100 106 114 112 114 142" fill="#3b0764"/>
+              <path d="M66 106L60 142H100L94 106Z" fill="#ffffff"/>
+              <rect x="68" y="112" width="24" height="28" rx="2" fill="#9333ea" stroke="#fbbf24" stroke-width="2"/>
+              <line x1="72" y1="118" x2="88" y2="118" stroke="#ffffff" stroke-width="1.5"/>
+              <line x1="72" y1="124" x2="84" y2="124" stroke="#ffffff" stroke-width="1.5"/>
+            </svg>
+          `;
+
+        // 5. 至高筆頭 (MAID-SOVEREIGN): Classic White Brim, Silver Teapot
+        case 'MAID-SOVEREIGN':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M42 46C42 26 118 26 118 46" fill="#f8fafc" stroke="#33a474" stroke-width="5"/>
+              <circle cx="44" cy="46" r="6" fill="#33a474"/>
+              <circle cx="116" cy="46" r="6" fill="#33a474"/>
+              ${baseHead('#334155', 'normal', true)}
+              <path d="M46 142C46 110 60 104 80 104C100 104 114 110 114 142" fill="#1e293b"/>
+              <path d="M66 104L60 142H100L94 104Z" fill="#ffffff"/>
+              <path d="M104 120C104 112 120 112 120 120V130H104Z" fill="#cbd5e1" stroke="#33a474" stroke-width="2"/>
+              <path d="M120 116C126 116 128 124 120 128" stroke="#33a474" stroke-width="2" fill="none"/>
+              <path d="M104 122L96 118" stroke="#33a474" stroke-width="2"/>
+            </svg>
+          `;
+
+        // 6. からかい懐刀 (MAID-CHARMER): Small Herbal Tea & Playful Pose
+        case 'MAID-CHARMER':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M45 44C45 28 115 28 115 44" fill="#f8fafc" stroke="#33a474" stroke-width="4"/>
+              <path d="M72 32L80 38L88 32L80 28Z" fill="#33a474"/>
+              ${baseHead('#065f46', 'wink', true)}
+              <path d="M46 142C46 110 60 104 80 104C100 104 114 110 114 142" fill="#064e3b"/>
+              <path d="M66 104L60 142H100L94 104Z" fill="#ffffff"/>
+              <path d="M48 118C48 126 62 126 62 118Z" fill="#ffffff" stroke="#33a474" stroke-width="2"/>
+              <path d="M62 120C65 120 66 124 62 125" stroke="#33a474" stroke-width="1.5" fill="none"/>
+              <path d="M54 114Q56 110 54 106" stroke="#a7f3d0" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          `;
+
+        // 7. 聖母メイド (MAID-MENTOR): Gentle halo flower ornament & Warm Hands
+        case 'MAID-MENTOR':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="80" cy="32" r="6" fill="#fef08a"/>
+              <circle cx="73" cy="32" r="5" fill="#ffffff"/>
+              <circle cx="87" cy="32" r="5" fill="#ffffff"/>
+              <circle cx="80" cy="25" r="5" fill="#ffffff"/>
+              <circle cx="80" cy="39" r="5" fill="#ffffff"/>
+              <path d="M44 48C44 32 116 32 116 48" fill="#f8fafc" stroke="#33a474" stroke-width="3"/>
+              ${baseHead('#14532d', 'happy', true)}
+              <path d="M46 142C46 110 60 104 80 104C100 104 114 110 114 142" fill="#052e16"/>
+              <path d="M66 104L60 142H100L94 104Z" fill="#ffffff"/>
+              <circle cx="80" cy="116" r="7" fill="#fff1eb"/>
+            </svg>
+          `;
+
+        // 8. 社交バランサー (MAID-DIPLOMAT): Flower Bouquet & Friendly Ribbon
+        case 'MAID-DIPLOMAT':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M44 46C44 26 116 26 116 46" fill="#f8fafc" stroke="#33a474" stroke-width="4"/>
+              ${baseHead('#047857', 'happy', true)}
+              <path d="M46 142C46 110 60 104 80 104C100 104 114 110 114 142" fill="#065f46"/>
+              <path d="M66 104L60 142H100L94 104Z" fill="#ffffff"/>
+              <circle cx="106" cy="114" r="5" fill="#f43f5e"/>
+              <circle cx="114" cy="116" r="5" fill="#fbbf24"/>
+              <circle cx="110" cy="122" r="5" fill="#ec4899"/>
+              <path d="M102 128L112 120" stroke="#33a474" stroke-width="2.5"/>
+            </svg>
+          `;
+
+        // 9. 慈愛守護 (MAID-GUARDIAN): Warm Soup Bowl & Motherly Apron
+        case 'MAID-GUARDIAN':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M42 46C42 26 118 26 118 46" fill="#f8fafc" stroke="#3ca0c9" stroke-width="4"/>
+              ${baseHead('#0369a1', 'normal', true)}
+              <path d="M46 142C46 110 60 104 80 104C100 104 114 110 114 142" fill="#0c4a6e"/>
+              <path d="M66 104L60 142H100L94 104Z" fill="#ffffff"/>
+              <path d="M70 120C70 130 90 130 90 120H70Z" fill="#fbbf24" stroke="#3ca0c9" stroke-width="2"/>
+              <path d="M76 115Q78 111 76 108" stroke="#bae6fd" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M84 115Q86 111 84 108" stroke="#bae6fd" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          `;
+
+        // 10. 精密執務 (MAID-OPERATOR): Pocket Watch & Feather Duster
+        case 'MAID-OPERATOR':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="44" y="32" width="72" height="14" rx="2" fill="#f8fafc" stroke="#3ca0c9" stroke-width="3"/>
+              ${baseHead('#334155', 'sharp', false)}
+              <path d="M46 142C46 110 60 104 80 104C100 104 114 110 114 142" fill="#0f172a"/>
+              <path d="M66 104L60 142H100L94 104Z" fill="#ffffff"/>
+              <circle cx="106" cy="120" r="9" fill="#fef08a" stroke="#d97706" stroke-width="2"/>
+              <line x1="106" y1="120" x2="106" y2="114" stroke="#d97706" stroke-width="1.5"/>
+              <line x1="106" y1="120" x2="111" y2="120" stroke="#d97706" stroke-width="1.5"/>
+              <path d="M106" y1="111" x2="98" y2="104" stroke="#d97706" stroke-width="1"/>
+            </svg>
+          `;
+
+        // 11. 鉄のチーフ (MAID-DIRECTOR): Chief Armband & Clipboard
+        case 'MAID-DIRECTOR':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M42 44C42 26 118 26 118 44" fill="#f8fafc" stroke="#3ca0c9" stroke-width="5"/>
+              ${baseHead('#1e293b', 'sharp', false)}
+              <path d="M46 142C46 110 60 104 80 104C100 104 114 110 114 142" fill="#0369a1"/>
+              <path d="M66 104L60 142H100L94 104Z" fill="#ffffff"/>
+              <rect x="42" y="112" width="14" height="12" rx="2" fill="#ef4444"/>
+              <line x1="45" y1="118" x2="53" y2="118" stroke="#ffffff" stroke-width="2"/>
+              <path d="M78 106V114H82" stroke="#3ca0c9" stroke-width="2" fill="none"/>
+            </svg>
+          `;
+
+        // 12. おもてなし看板 (MAID-HOSTESS): 3-Tier Afternoon Tea Stand
+        case 'MAID-HOSTESS':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M42 46C42 26 118 26 118 46" fill="#f8fafc" stroke="#3ca0c9" stroke-width="4"/>
+              <circle cx="44" cy="46" r="5" fill="#3ca0c9"/>
+              <circle cx="116" cy="46" r="5" fill="#3ca0c9"/>
+              ${baseHead('#0284c7', 'happy', true)}
+              <path d="M46 142C46 110 60 104 80 104C100 104 114 110 114 142" fill="#075985"/>
+              <path d="M66 104L60 142H100L94 104Z" fill="#ffffff"/>
+              <line x1="112" y1="102" x2="112" y2="132" stroke="#3ca0c9" stroke-width="2"/>
+              <ellipse cx="112" cy="112" rx="10" ry="3" fill="#e2e8f0" stroke="#3ca0c9" stroke-width="1.5"/>
+              <ellipse cx="112" cy="122" rx="14" ry="4" fill="#e2e8f0" stroke="#3ca0c9" stroke-width="1.5"/>
+              <circle cx="112" cy="100" r="3" stroke="#3ca0c9" stroke-width="1.5" fill="none"/>
+            </svg>
+          `;
+
+        // 13. 健気な小鳥 (MAID-DEVOTION): Soft Blushing Face & Teacup
+        case 'MAID-DEVOTION':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M46 48C46 32 114 32 114 48" fill="#f8fafc" stroke="#e59324" stroke-width="3"/>
+              <circle cx="80" cy="34" r="5" fill="#f59e0b"/>
+              ${baseHead('#b45309', 'happy', true)}
+              <path d="M46 142C46 110 60 104 80 104C100 104 114 110 114 142" fill="#78350f"/>
+              <path d="M66 104L60 142H100L94 104Z" fill="#ffffff"/>
+              <rect x="74" y="112" width="12" height="14" rx="2" fill="#ffffff" stroke="#e59324" stroke-width="1.5"/>
+              <circle cx="70" cy="118" r="4" fill="#fff1eb"/>
+              <circle cx="90" cy="118" r="4" fill="#fff1eb"/>
+            </svg>
+          `;
+
+        // 14. 寡黙護衛 (MAID-KNIGHT): Dark Leather Gloves & Concealed Dagger
+        case 'MAID-KNIGHT':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M45 44C45 28 115 28 115 44" fill="#f8fafc" stroke="#e59324" stroke-width="4"/>
+              ${baseHead('#1e293b', 'sharp', false)}
+              <path d="M46 142C46 110 60 104 80 104C100 104 114 110 114 142" fill="#292524"/>
+              <path d="M66 104L60 142H100L94 104Z" fill="#ffffff"/>
+              <line x1="102" y1="96" x2="116" y2="128" stroke="#78716c" stroke-width="3" stroke-linecap="round"/>
+              <line x1="110" y1="114" x2="118" y2="110" stroke="#fbbf24" stroke-width="2"/>
+              <circle cx="100" cy="94" r="3" fill="#e59324"/>
+            </svg>
+          `;
+
+        // 15. 宴のムードメーカー (MAID-CHEER): Party Popper & Fresh Scones
+        case 'MAID-CHEER':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M45 46C45 28 115 28 115 46" fill="#f8fafc" stroke="#e59324" stroke-width="4"/>
+              <path d="M72 32L80 38L88 32L80 28Z" fill="#f59e0b"/>
+              ${baseHead('#d97706', 'happy', true)}
+              <path d="M46 142C46 110 60 104 80 104C100 104 114 110 114 142" fill="#92400e"/>
+              <path d="M66 104L60 142H100L94 104Z" fill="#ffffff"/>
+              <circle cx="106" cy="110" r="3" fill="#ec4899"/>
+              <circle cx="114" cy="102" r="2.5" fill="#3b82f6"/>
+              <circle cx="120" cy="114" r="3" fill="#10b981"/>
+              <ellipse cx="48" cy="120" rx="10" ry="4" fill="#fde68a" stroke="#d97706" stroke-width="1.5"/>
+              <circle cx="48" cy="118" r="4" fill="#b45309"/>
+            </svg>
+          `;
+
+        // 16. 最前線アクション (MAID-STRIKER): Combat Mop & Dynamic Stance
+        case 'MAID-STRIKER':
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M42 46C42 26 118 26 118 46" fill="#f8fafc" stroke="#e59324" stroke-width="5"/>
+              <path d="M116 46L126 40M116 48L124 54" stroke="#e59324" stroke-width="3" stroke-linecap="round"/>
+              ${baseHead('#78350f', 'sharp', true)}
+              <path d="M46 142C46 110 60 104 80 104C100 104 114 110 114 142" fill="#451a03"/>
+              <path d="M66 104L60 142H100L94 104Z" fill="#ffffff"/>
+              <line x1="36" y1="94" x2="68" y2="144" stroke="#78350f" stroke-width="4" stroke-linecap="round"/>
+              <path d="M30 84C32 94 40 94 42 84Z" fill="#e2e8f0" stroke="#e59324" stroke-width="2"/>
+            </svg>
+          `;
+
+        default:
+          return `
+            <svg class="w-full h-full" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M42 46C42 26 118 26 118 46" fill="#f8fafc" stroke="#8854c0" stroke-width="4"/>
+              ${baseHead('#334155', 'normal', true)}
+              <path d="M46 142C46 110 60 104 80 104C100 104 114 110 114 142" fill="#1e1b4b"/>
+              <path d="M66 104L60 142H100L94 104Z" fill="#ffffff"/>
+            </svg>
+          `;
+      }
+    }
+  </script>
+</body>
+</html>
