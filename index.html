@@ -122,9 +122,8 @@
           <span class="text-[11px] font-bold text-slate-400 ml-1.5 px-2 py-0.5 bg-slate-100 rounded-full">PERSONALITY</span>
         </div>
       </div>
-      <nav class="flex items-center gap-3 sm:gap-6 text-sm font-semibold">
-        <button onclick="showView('home')" class="text-slate-600 hover:text-purple-600 transition">ホーム</button>
-        <button id="nav-encyclopedia-btn" onclick="handleNavEncyclopedia()" class="text-slate-500 hover:text-purple-600 transition flex items-center gap-1.5">
+      <nav class="flex items-center text-sm font-semibold">
+        <button id="nav-encyclopedia-btn" onclick="handleNavEncyclopedia()" class="text-slate-500 hover:text-purple-600 transition flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-slate-50">
           <svg id="nav-lock-svg" class="w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
@@ -133,10 +132,6 @@
             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
           </svg>
           <span>16タイプ図鑑</span>
-        </button>
-        <button onclick="startQuiz()" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 active:scale-95 text-white transition shadow-sm font-bold flex items-center gap-1.5">
-          <span>診断する (30問)</span>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
         </button>
       </nav>
     </div>
@@ -400,7 +395,6 @@
           <div class="text-center">
             <span class="text-xs font-extrabold text-[#1DA1F2] tracking-wider uppercase">SHARE & SAVE</span>
             <h3 class="text-lg font-bold text-slate-800">診断結果を保存・Twitterで共有</h3>
-            <p class="text-xs text-slate-500 mt-1">16:9横長カード画像（Retina高解像度）でTwitterへの投稿や保存ができます</p>
           </div>
 
           <!-- Primary Actions (Twitter, Save, Copy Image) -->
@@ -443,33 +437,36 @@
     </section>
 
     <!-- ==================== OFF-SCREEN CAPTURE CARD (840x472 / 16:9 for Twitter) ==================== -->
-    <div id="twitter-share-card-capture" aria-hidden="true" style="position: fixed; left: -9999px; top: 0; width: 840px; height: 472px; overflow: hidden; font-family: 'Inter', 'Noto Sans JP', sans-serif; box-sizing: border-box; background: #ffffff;">
-      <div id="capture-card-inner" style="width: 840px; height: 472px; padding: 26px 34px; display: flex; flex-direction: column; justify-content: space-between; position: relative; box-sizing: border-box; background: #ffffff;">
+    <div id="twitter-share-card-capture" aria-hidden="true" style="position: fixed; left: -9999px; top: 0; width: 840px; height: 472px; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans JP', sans-serif; box-sizing: border-box; background: #ffffff;">
+      <div id="capture-card-inner" style="width: 840px; height: 472px; padding: 28px 36px; display: flex; flex-direction: column; justify-content: space-between; position: relative; box-sizing: border-box; background: #ffffff;">
         
         <!-- Top Header Bar -->
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 10px;">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="background: #0f172a; color: #ffffff; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; padding: 4px 12px; border-radius: 9999px; text-transform: uppercase; white-space: nowrap;">
-              16MAID PERSONALITY TEST
-            </div>
-            <div id="capture-group-badge" style="font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 9999px; letter-spacing: 0.02em; white-space: nowrap;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 12px;">
+          <div style="display: flex; align-items: center;">
+            <span style="font-size: 14px; font-weight: 900; color: #0f172a; letter-spacing: 0.04em;">
+              16MAID
+            </span>
+            <span style="font-size: 11px; font-weight: 700; color: #64748b; letter-spacing: 0.06em; margin-left: 6px;">
+              PERSONALITY TEST
+            </span>
+            <span id="capture-group-badge" style="font-size: 11px; font-weight: 800; padding: 3px 12px; border-radius: 9999px; margin-left: 14px; letter-spacing: 0.02em;">
               参謀・統括グループ (ANALYST)
-            </div>
+            </span>
           </div>
-          <div style="font-size: 11px; font-weight: 700; color: #64748b; letter-spacing: 0.05em; white-space: nowrap;">
+          <div style="font-size: 11px; font-weight: 700; color: #64748b; letter-spacing: 0.05em;">
             Created by shotata
           </div>
         </div>
 
         <!-- Middle Body Area (2 Columns) -->
-        <div style="display: flex; align-items: center; gap: 28px; flex: 1; margin-top: 10px; margin-bottom: 10px;">
+        <div style="display: flex; align-items: center; gap: 32px; flex: 1; margin-top: 12px; margin-bottom: 12px;">
           
           <!-- Left: Avatar Box -->
-          <div style="width: 210px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center;">
-            <div id="capture-avatar" style="width: 184px; height: 184px; background: #ffffff; border: 1px solid rgba(0,0,0,0.08); border-radius: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; padding: 12px; box-sizing: border-box;">
+          <div style="width: 200px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center;">
+            <div id="capture-avatar" style="width: 176px; height: 176px; background: #ffffff; border: 1px solid rgba(0,0,0,0.08); border-radius: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; padding: 10px; box-sizing: border-box;">
               <!-- SVG Avatar inserted dynamically -->
             </div>
-            <div style="margin-top: 8px; font-size: 10px; font-weight: 800; color: #94a3b8; letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap;">
+            <div style="margin-top: 8px; font-size: 10px; font-weight: 800; color: #94a3b8; letter-spacing: 0.12em; text-transform: uppercase;">
               AUTHENTIC PERSONALITY
             </div>
           </div>
@@ -477,27 +474,20 @@
           <!-- Right: Details Box -->
           <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center;">
             
-            <!-- Type Identification -->
-            <div style="margin-bottom: 8px;">
-              <div style="font-size: 10px; font-weight: 800; color: #64748b; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 3px;">
-                YOUR PERSONALITY CODE
-              </div>
-              <div style="display: flex; align-items: center; gap: 12px;">
-                <div style="background: #0f172a; color: #ffffff; font-size: 26px; font-weight: 900; line-height: 1; padding: 6px 14px; border-radius: 10px; letter-spacing: 0.04em; flex-shrink: 0;">
-                  MAID
-                </div>
-                <div id="capture-title" style="font-size: 19px; font-weight: 800; color: #1e293b; line-height: 1.25; white-space: nowrap;">
-                  冷徹なる参謀メイド (MAID-STRATEGIST)
-                </div>
-              </div>
+            <div style="font-size: 10px; font-weight: 800; color: #64748b; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 2px;">
+              YOUR PERSONALITY CODE
+            </div>
+            
+            <div style="font-size: 40px; font-weight: 900; color: #0f172a; line-height: 1.1; letter-spacing: -0.01em; margin-bottom: 2px;">
+              MAID
             </div>
 
-            <!-- Catchphrase (Separated Quote Bar) -->
-            <div style="display: flex; align-items: stretch; gap: 10px; margin-bottom: 12px; background: rgba(255,255,255,0.7); border: 1px solid rgba(0,0,0,0.04); border-radius: 10px; padding: 6px 12px; box-sizing: border-box;">
-              <div id="capture-quote-bar" style="width: 3.5px; background: #8b5cf6; border-radius: 2px; flex-shrink: 0;"></div>
-              <div id="capture-catchphrase" style="font-size: 11.5px; font-weight: 600; color: #475569; font-style: italic; line-height: 1.45;">
-                「感情は時に判断を狂わせます。旦那様、私に従っていただければ勝利は確実です」
-              </div>
+            <div id="capture-title" style="font-size: 19px; font-weight: 800; color: #334155; line-height: 1.3; margin-bottom: 8px; white-space: nowrap;">
+              冷徹なる参謀メイド (MAID-STRATEGIST)
+            </div>
+
+            <div style="font-size: 12px; font-weight: 600; color: #475569; font-style: italic; line-height: 1.5; margin-bottom: 14px;">
+              <span id="capture-catchphrase">「感情は時に判断を狂わせます。旦那様、私に従っていただければ勝利は確実です」</span>
             </div>
 
             <!-- 4 MAID Word Cards (2x2 Grid) -->
@@ -509,11 +499,11 @@
         </div>
 
         <!-- Bottom Footer Bar -->
-        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 8px;">
-          <div style="font-size: 11px; font-weight: 800; color: #64748b; letter-spacing: 0.05em; white-space: nowrap;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 10px;">
+          <div style="font-size: 11px; font-weight: 800; color: #64748b; letter-spacing: 0.05em;">
             #16MAID診断 #MAID性格診断
           </div>
-          <div style="font-size: 11px; font-weight: 700; color: #7c3aed; letter-spacing: 0.02em; white-space: nowrap;">
+          <div style="font-size: 11px; font-weight: 700; color: #7c3aed; letter-spacing: 0.02em;">
             https://shotata-rgb.github.io/16maid/
           </div>
         </div>
@@ -1411,16 +1401,18 @@
       showView('loading');
 
       const texts = [
-        '30の回答データから4軸のパラメータを照合しています...',
+        '30の回答データから4軸のパラメータを精密照合中...',
         '深層心理の奉仕傾向と行動様式を計算中...',
-        'あなたに宿るMAIDの魂を特定しています...'
+        'あなたに宿るMAIDの魂とコア定義を特定しています...'
       ];
       let tIdx = 0;
+      const sub = document.getElementById('loading-subtext');
+      if (sub) sub.textContent = texts[0];
+
       const interval = setInterval(() => {
         tIdx = (tIdx + 1) % texts.length;
-        const sub = document.getElementById('loading-subtext');
         if (sub) sub.textContent = texts[tIdx];
-      }, 500);
+      }, 900);
 
       setTimeout(() => {
         clearInterval(interval);
@@ -1432,7 +1424,7 @@
         document.getElementById('nav-unlocked-svg').classList.remove('hidden');
         
         showView('result');
-      }, 1600);
+      }, 2700);
     }
 
     /* =========================================================================
@@ -1924,11 +1916,6 @@
         title.textContent = `${maid.name} (${maid.subCode})`;
       }
 
-      const qBar = document.getElementById('capture-quote-bar');
-      if (qBar) {
-        qBar.style.background = theme.accent;
-      }
-
       const cp = document.getElementById('capture-catchphrase');
       if (cp) {
         cp.textContent = `「${maid.catchphrase}」`;
@@ -1938,39 +1925,47 @@
       if (wordsGrid) {
         wordsGrid.innerHTML = `
           <!-- M -->
-          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
-            <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
-              <div style="width: 22px; height: 22px; border-radius: 6px; background: #f3e8ff; color: #7e22ce; font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 1;">M</div>
-              <span style="font-size: 12px; font-weight: 800; color: #1e293b; white-space: nowrap;">${mw.m.word}</span>
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; padding: 8px 12px; display: flex; align-items: baseline; justify-content: space-between; box-sizing: border-box;">
+            <div>
+              <span style="font-size: 14px; font-weight: 900; color: #7e22ce; margin-right: 6px;">M</span>
+              <span style="font-size: 12.5px; font-weight: 800; color: #1e293b;">${mw.m.word}</span>
             </div>
-            <span style="font-size: 11px; font-weight: 700; color: #64748b; white-space: nowrap; margin-left: 6px;">${mw.m.ja} (${s.m}%)</span>
+            <div style="font-size: 11px; font-weight: 700; color: #64748b;">
+              ${mw.m.ja} (${s.m}%)
+            </div>
           </div>
 
           <!-- A -->
-          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
-            <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
-              <div style="width: 22px; height: 22px; border-radius: 6px; background: #dcfce7; color: #15803d; font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 1;">A</div>
-              <span style="font-size: 12px; font-weight: 800; color: #1e293b; white-space: nowrap;">${mw.a.word}</span>
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; padding: 8px 12px; display: flex; align-items: baseline; justify-content: space-between; box-sizing: border-box;">
+            <div>
+              <span style="font-size: 14px; font-weight: 900; color: #15803d; margin-right: 6px;">A</span>
+              <span style="font-size: 12.5px; font-weight: 800; color: #1e293b;">${mw.a.word}</span>
             </div>
-            <span style="font-size: 11px; font-weight: 700; color: #64748b; white-space: nowrap; margin-left: 6px;">${mw.a.ja} (${s.a}%)</span>
+            <div style="font-size: 11px; font-weight: 700; color: #64748b;">
+              ${mw.a.ja} (${s.a}%)
+            </div>
           </div>
 
           <!-- I -->
-          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
-            <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
-              <div style="width: 22px; height: 22px; border-radius: 6px; background: #e0f2fe; color: #0369a1; font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 1;">I</div>
-              <span style="font-size: 12px; font-weight: 800; color: #1e293b; white-space: nowrap;">${mw.i.word}</span>
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; padding: 8px 12px; display: flex; align-items: baseline; justify-content: space-between; box-sizing: border-box;">
+            <div>
+              <span style="font-size: 14px; font-weight: 900; color: #0369a1; margin-right: 6px;">I</span>
+              <span style="font-size: 12.5px; font-weight: 800; color: #1e293b;">${mw.i.word}</span>
             </div>
-            <span style="font-size: 11px; font-weight: 700; color: #64748b; white-space: nowrap; margin-left: 6px;">${mw.i.ja} (${s.i}%)</span>
+            <div style="font-size: 11px; font-weight: 700; color: #64748b;">
+              ${mw.i.ja} (${s.i}%)
+            </div>
           </div>
 
           <!-- D -->
-          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; padding: 6px 10px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
-            <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
-              <div style="width: 22px; height: 22px; border-radius: 6px; background: #fef3c7; color: #b45309; font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; line-height: 1;">D</div>
-              <span style="font-size: 12px; font-weight: 800; color: #1e293b; white-space: nowrap;">${mw.d.word}</span>
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; padding: 8px 12px; display: flex; align-items: baseline; justify-content: space-between; box-sizing: border-box;">
+            <div>
+              <span style="font-size: 14px; font-weight: 900; color: #b45309; margin-right: 6px;">D</span>
+              <span style="font-size: 12.5px; font-weight: 800; color: #1e293b;">${mw.d.word}</span>
             </div>
-            <span style="font-size: 11px; font-weight: 700; color: #64748b; white-space: nowrap; margin-left: 6px;">${mw.d.ja} (${s.d}%)</span>
+            <div style="font-size: 11px; font-weight: 700; color: #64748b;">
+              ${mw.d.ja} (${s.d}%)
+            </div>
           </div>
         `;
       }
