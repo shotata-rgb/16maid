@@ -441,19 +441,17 @@
       <div id="capture-card-inner" style="width: 840px; height: 472px; padding: 28px 36px; display: flex; flex-direction: column; justify-content: space-between; position: relative; box-sizing: border-box; background: #ffffff;">
         
         <!-- Top Header Bar -->
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 12px;">
-          <div style="display: flex; align-items: center;">
-            <span style="font-size: 14px; font-weight: 900; color: #0f172a; letter-spacing: 0.04em;">
-              16MAID
-            </span>
-            <span style="font-size: 11px; font-weight: 700; color: #64748b; letter-spacing: 0.06em; margin-left: 6px;">
-              PERSONALITY TEST
-            </span>
-            <span id="capture-group-badge" style="font-size: 11px; font-weight: 800; padding: 3px 12px; border-radius: 9999px; margin-left: 14px; letter-spacing: 0.02em;">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.08); padding-bottom: 12px; height: 32px; box-sizing: border-box;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="display: flex; align-items: baseline; gap: 6px;">
+              <span style="font-size: 14px; font-weight: 900; color: #0f172a; letter-spacing: 0.04em; line-height: 1;">16MAID</span>
+              <span style="font-size: 11px; font-weight: 700; color: #64748b; letter-spacing: 0.06em; line-height: 1;">PERSONALITY TEST</span>
+            </div>
+            <span id="capture-group-badge" style="font-size: 11px; font-weight: 800; height: 22px; padding: 0 10px; border-radius: 9999px; margin-left: 4px; letter-spacing: 0.02em; display: inline-flex; align-items: center; justify-content: center; line-height: 1; box-sizing: border-box;">
               参謀・統括グループ (ANALYST)
             </span>
           </div>
-          <div style="font-size: 11px; font-weight: 700; color: #64748b; letter-spacing: 0.05em;">
+          <div style="font-size: 11px; font-weight: 700; color: #64748b; letter-spacing: 0.05em; line-height: 1; display: inline-flex; align-items: center;">
             Created by shotata
           </div>
         </div>
@@ -474,19 +472,18 @@
           <!-- Right: Details Box -->
           <div style="flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center;">
             
-            <div style="font-size: 10px; font-weight: 800; color: #64748b; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 2px;">
+            <div style="font-size: 10px; font-weight: 800; color: #64748b; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 4px; line-height: 1;">
               YOUR PERSONALITY CODE
             </div>
             
-            <div style="font-size: 40px; font-weight: 900; color: #0f172a; line-height: 1.1; letter-spacing: -0.01em; margin-bottom: 2px;">
-              MAID
+            <!-- MAID and Type Title on a single straight horizontal line -->
+            <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 8px; flex-wrap: nowrap;">
+              <span style="font-size: 36px; font-weight: 900; color: #0f172a; line-height: 1; letter-spacing: -0.01em; flex-shrink: 0;">MAID</span>
+              <span id="capture-title" style="font-size: 17px; font-weight: 800; color: #334155; line-height: 1; white-space: nowrap; flex-shrink: 0;">冷徹なる参謀メイド (MAID-STRATEGIST)</span>
             </div>
 
-            <div id="capture-title" style="font-size: 19px; font-weight: 800; color: #334155; line-height: 1.3; margin-bottom: 8px; white-space: nowrap;">
-              冷徹なる参謀メイド (MAID-STRATEGIST)
-            </div>
-
-            <div style="font-size: 12px; font-weight: 600; color: #475569; font-style: italic; line-height: 1.5; margin-bottom: 14px;">
+            <!-- Catchphrase: Normal font-style + letter-spacing to prevent character overlap -->
+            <div style="font-size: 12.5px; font-weight: 600; color: #334155; font-style: normal; line-height: 1.6; letter-spacing: 0.04em; margin-bottom: 12px; min-height: 38px; display: flex; align-items: center;">
               <span id="capture-catchphrase">「感情は時に判断を狂わせます。旦那様、私に従っていただければ勝利は確実です」</span>
             </div>
 
@@ -1925,45 +1922,45 @@
       if (wordsGrid) {
         wordsGrid.innerHTML = `
           <!-- M -->
-          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; padding: 8px 12px; display: flex; align-items: baseline; justify-content: space-between; box-sizing: border-box;">
-            <div>
-              <span style="font-size: 14px; font-weight: 900; color: #7e22ce; margin-right: 6px;">M</span>
-              <span style="font-size: 12.5px; font-weight: 800; color: #1e293b;">${mw.m.word}</span>
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; height: 38px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
+            <div style="display: flex; align-items: center; line-height: 1;">
+              <span style="font-size: 14px; font-weight: 900; color: #7e22ce; margin-right: 6px; line-height: 1; display: inline-flex; align-items: center;">M</span>
+              <span style="font-size: 12.5px; font-weight: 800; color: #1e293b; line-height: 1; display: inline-flex; align-items: center;">${mw.m.word}</span>
             </div>
-            <div style="font-size: 11px; font-weight: 700; color: #64748b;">
+            <div style="font-size: 11px; font-weight: 700; color: #64748b; line-height: 1; display: flex; align-items: center;">
               ${mw.m.ja} (${s.m}%)
             </div>
           </div>
 
           <!-- A -->
-          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; padding: 8px 12px; display: flex; align-items: baseline; justify-content: space-between; box-sizing: border-box;">
-            <div>
-              <span style="font-size: 14px; font-weight: 900; color: #15803d; margin-right: 6px;">A</span>
-              <span style="font-size: 12.5px; font-weight: 800; color: #1e293b;">${mw.a.word}</span>
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; height: 38px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
+            <div style="display: flex; align-items: center; line-height: 1;">
+              <span style="font-size: 14px; font-weight: 900; color: #15803d; margin-right: 6px; line-height: 1; display: inline-flex; align-items: center;">A</span>
+              <span style="font-size: 12.5px; font-weight: 800; color: #1e293b; line-height: 1; display: inline-flex; align-items: center;">${mw.a.word}</span>
             </div>
-            <div style="font-size: 11px; font-weight: 700; color: #64748b;">
+            <div style="font-size: 11px; font-weight: 700; color: #64748b; line-height: 1; display: flex; align-items: center;">
               ${mw.a.ja} (${s.a}%)
             </div>
           </div>
 
           <!-- I -->
-          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; padding: 8px 12px; display: flex; align-items: baseline; justify-content: space-between; box-sizing: border-box;">
-            <div>
-              <span style="font-size: 14px; font-weight: 900; color: #0369a1; margin-right: 6px;">I</span>
-              <span style="font-size: 12.5px; font-weight: 800; color: #1e293b;">${mw.i.word}</span>
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; height: 38px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
+            <div style="display: flex; align-items: center; line-height: 1;">
+              <span style="font-size: 14px; font-weight: 900; color: #0369a1; margin-right: 6px; line-height: 1; display: inline-flex; align-items: center;">I</span>
+              <span style="font-size: 12.5px; font-weight: 800; color: #1e293b; line-height: 1; display: inline-flex; align-items: center;">${mw.i.word}</span>
             </div>
-            <div style="font-size: 11px; font-weight: 700; color: #64748b;">
+            <div style="font-size: 11px; font-weight: 700; color: #64748b; line-height: 1; display: flex; align-items: center;">
               ${mw.i.ja} (${s.i}%)
             </div>
           </div>
 
           <!-- D -->
-          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; padding: 8px 12px; display: flex; align-items: baseline; justify-content: space-between; box-sizing: border-box;">
-            <div>
-              <span style="font-size: 14px; font-weight: 900; color: #b45309; margin-right: 6px;">D</span>
-              <span style="font-size: 12.5px; font-weight: 800; color: #1e293b;">${mw.d.word}</span>
+          <div style="background: rgba(255,255,255,0.95); border: 1px solid #e2e8f0; border-radius: 12px; height: 38px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; box-sizing: border-box;">
+            <div style="display: flex; align-items: center; line-height: 1;">
+              <span style="font-size: 14px; font-weight: 900; color: #b45309; margin-right: 6px; line-height: 1; display: inline-flex; align-items: center;">D</span>
+              <span style="font-size: 12.5px; font-weight: 800; color: #1e293b; line-height: 1; display: inline-flex; align-items: center;">${mw.d.word}</span>
             </div>
-            <div style="font-size: 11px; font-weight: 700; color: #64748b;">
+            <div style="font-size: 11px; font-weight: 700; color: #64748b; line-height: 1; display: flex; align-items: center;">
               ${mw.d.ja} (${s.d}%)
             </div>
           </div>
